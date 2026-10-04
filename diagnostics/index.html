@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Diagnostics | Sangeet Seekho</title>
+  <meta name="description" content="Setup checks">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://sangeetseekho.com/diagnostics/">
+  <meta name="theme-color" content="#1F150F">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sangeet Seekho">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="https://sangeetseekho.com/diagnostics/">
+  <meta property="og:title" content="Diagnostics | Sangeet Seekho">
+  <meta property="og:description" content="Setup checks">
+  <meta property="og:image" content="https://sangeetseekho.com/assets/img/og/og-default.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/brand/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/icon-180.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/sections.css">
+  <script type="module" src="/js/pages/diagnostics.js"></script>
+</head>
+<body>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="section">
+      <div class="container container--narrow">
+        <p class="eyebrow">Owner tools</p>
+        <h1 class="h2">Setup check</h1>
+        <p class="lead">This page checks your settings. It is hidden from Google. Green = OK, red = needs fixing.</p>
+        <div class="diag" data-diag><p>Running checks…</p></div>
+        <h2 class="h4" style="margin-top:40px">Send a test row to Google Sheets</h2>
+        <p class="muted">Adds one row marked TEST to the “All Leads” tab, so you can see the connection works.</p>
+        <button class="btn btn--dark" type="button" data-test-lead>Send test lead</button>
+        <p class="form-status" hidden data-test-status></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+</body>
+</html>
