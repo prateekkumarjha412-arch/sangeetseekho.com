@@ -10,23 +10,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #faf9f7;
-      --fg: #141414;
-      --muted: #6b6b6b;
-      --line: #e4e2de;
+      --bg: #fff8f0;
+      --fg: #1c1426;
+      --muted: #6e6275;
+      --saffron: #f08a24;
+      --rose: #e0457b;
+      --indigo: #5b3fd1;
+      --glow-a: rgba(240, 138, 36, 0.16);
+      --glow-b: rgba(91, 63, 209, 0.12);
+      --grad: linear-gradient(90deg, var(--saffron), var(--rose) 50%, var(--indigo));
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #111111;
-        --fg: #f2f2f0;
-        --muted: #9a9a96;
-        --line: #2a2a2a;
+        --bg: #140f1c;
+        --fg: #f7f1ea;
+        --muted: #a99db3;
+        --saffron: #ffa24a;
+        --rose: #ff6b9a;
+        --indigo: #9682ff;
+        --glow-a: rgba(255, 162, 74, 0.12);
+        --glow-b: rgba(150, 130, 255, 0.14);
       }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(60vw 60vw at 100% 0%, var(--glow-b), transparent 70%),
+        radial-gradient(60vw 60vw at 0% 100%, var(--glow-a), transparent 70%),
+        var(--bg);
       color: var(--fg);
       display: flex;
       flex-direction: column;
@@ -41,7 +53,7 @@
       font-size: 13px;
       color: var(--muted);
     }
-    header .mark { font-weight: 800; color: var(--fg); letter-spacing: -0.01em; }
+    header .mark { font-weight: 800; color: var(--saffron); letter-spacing: -0.01em; }
     header .domain { font-weight: 400; }
 
     main {
@@ -59,7 +71,7 @@
       font-size: 12px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--rose);
       margin-bottom: 24px;
     }
     h1 {
@@ -68,7 +80,15 @@
       line-height: 0.95;
       letter-spacing: -0.045em;
     }
-    h1 span { display: block; font-weight: 200; }
+    h1 span {
+      display: block;
+      font-weight: 200;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-bottom: 0.08em;
+    }
     .tagline {
       font-weight: 300;
       font-size: clamp(22px, 3.6vw, 34px);
@@ -77,11 +97,12 @@
       margin-top: 32px;
       max-width: 22ch;
     }
-    .tagline strong { font-weight: 600; }
+    .tagline strong { font-weight: 600; color: var(--indigo); }
     .rule {
-      height: 1px;
+      height: 2px;
       width: 120px;
-      background: var(--line);
+      border-radius: 1px;
+      background: var(--grad);
       margin: 40px 0 20px;
     }
     .note {
@@ -105,10 +126,21 @@
       width: 4px;
       height: 100%;
       border-radius: 2px;
-      background: var(--fg);
+      background: var(--grad);
+      background-size: 95px 100%; /* 11 bars × 9px step → one continuous gradient */
       transform: scaleY(0.2);
       animation: wave 1.2s ease-in-out infinite;
     }
+    .wave span:nth-child(2)  { background-position: -9px 0; }
+    .wave span:nth-child(3)  { background-position: -18px 0; }
+    .wave span:nth-child(4)  { background-position: -27px 0; }
+    .wave span:nth-child(5)  { background-position: -36px 0; }
+    .wave span:nth-child(6)  { background-position: -45px 0; }
+    .wave span:nth-child(7)  { background-position: -54px 0; }
+    .wave span:nth-child(8)  { background-position: -63px 0; }
+    .wave span:nth-child(9)  { background-position: -72px 0; }
+    .wave span:nth-child(10) { background-position: -81px 0; }
+    .wave span:nth-child(11) { background-position: -90px 0; }
     .wave span:nth-child(1)  { animation-delay: -1.10s; }
     .wave span:nth-child(2)  { animation-delay: -0.95s; }
     .wave span:nth-child(3)  { animation-delay: -0.80s; }
