@@ -31,10 +31,10 @@ export const CONTACT_CONFIG = {
   SUPPORT_HOURS: '10 AM – 9 PM IST, all days',
 
   // Payment-help panel (the "Payment issue?" floating button)
-  UPI_ID: 'YOUR_UPI_ID@bank',            // e.g. 'sangeetseekho@okicici'
-  UPI_PAYEE_NAME: 'Sangeet Seekho',
+  UPI_ID: '9754751793@ybl',
+  UPI_PAYEE_NAME: 'Abhishek Nayak',
   // Put your QR image in /assets/img/payment/ and write its file name here:
-  UPI_QR_IMAGE: '/assets/img/payment/upi-qr-placeholder.svg',
+  UPI_QR_IMAGE: '/assets/img/payment/upi-qr.png',
 
   INSTAGRAM_URL: '',   // e.g. 'https://instagram.com/yourpage'  (leave '' to hide)
   YOUTUBE_URL: '',     // e.g. 'https://youtube.com/@yourchannel' (leave '' to hide)
@@ -42,8 +42,9 @@ export const CONTACT_CONFIG = {
 
 /* ---------- 3. GOOGLE APPS SCRIPT (your backend) ---------- */
 export const BACKEND_CONFIG = {
-  // Paste the Web App URL you get after "Deploy → New deployment" in Apps Script.
+  // Paste the WEB APP URL you get after "Deploy → New deployment" in Apps Script.
   // It looks like: https://script.google.com/macros/s/AKfy..../exec
+  // ⚠️ NOT the editor link (script.google.com/home/projects/.../edit) — that one won't work.
   GOOGLE_SCRIPT_URL: 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE',
   REQUEST_TIMEOUT_MS: 15000,   // give up on one request after 15 seconds
 };
@@ -52,7 +53,7 @@ export const BACKEND_CONFIG = {
 export const PAYMENT_CONFIG = {
   // Only the KEY ID goes here (starts with rzp_test_ or rzp_live_).
   // The KEY SECRET goes in Apps Script Script Properties — never here.
-  RAZORPAY_KEY_ID: 'rzp_test_XXXXXXXXXXXXXX',
+  RAZORPAY_KEY_ID: 'rzp_live_TkG7baf6ZklyDq',
   CURRENCY: 'INR',
   CHECKOUT_TITLE: 'Sangeet Seekho',
   THEME_COLOR: '#B5651D',
@@ -83,7 +84,7 @@ export const PRODUCT_CONFIG = {
     price: 1499,
     mrp: 3700,               // "show-up" / original price (shown crossed out)
     page: '/fingerstyle-guitar-ebook/',
-    cover: '/assets/img/ebooks/fingerstyle-cover',   // without .webp/.jpg
+    cover: '/assets/img/ebooks/fingerstyle-flat',   // flat front cover, without .webp/.jpg
     includes: ['fingerstyle'],
   },
   chord: {
@@ -94,7 +95,7 @@ export const PRODUCT_CONFIG = {
     price: 999,
     mrp: 2100,
     page: '/chord-modulation-theory/',
-    cover: '/assets/img/ebooks/chord-modulation-cover',
+    cover: '/assets/img/ebooks/chord-modulation-flat',
     includes: ['chord'],
   },
   combo: {

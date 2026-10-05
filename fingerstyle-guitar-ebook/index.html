@@ -24,7 +24,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://checkout.razorpay.com">
-  <link rel="preload" as="image" type="image/webp" href="/assets/img/ebooks/fingerstyle-cover.webp">
+  <link rel="preload" as="image" type="image/webp" href="/assets/img/ebooks/fingerstyle-flat.webp">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/sections.css">
@@ -33,190 +33,132 @@
 <body class="page-ebook" data-product="fingerstyle">
   <div class="offer-bar">
     <div class="container">
-      <span>Launch offer: <b data-price="fingerstyle"></b> instead of <s data-mrp="fingerstyle"></s></span>
-      <span class="offer-timer" data-offer-timer><span class="offer-timer-label" data-offer-label>Ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
+      <span>Launch offer: <b data-price="fingerstyle"></b> <s data-mrp="fingerstyle"></s></span>
+      <span class="offer-timer " data-offer-timer><span class="offer-timer-label" data-offer-label>Ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
     </div>
   </div>
   <header class="site-header" data-site-header></header>
 
   <main id="main">
-    <!-- ================= HERO ================= -->
+    <!-- ============ HERO ============ -->
     <section class="pdp-hero" aria-labelledby="pdp-title">
       <div class="container pdp-grid">
-        <div class="pdp-cover">
-          <picture>
-            <source type="image/webp" srcset="/assets/img/ebooks/fingerstyle-cover-480.webp 480w, /assets/img/ebooks/fingerstyle-cover.webp 800w" sizes="(max-width: 900px) 320px, 520px">
-            <img src="/assets/img/ebooks/fingerstyle-cover.jpg" alt="Fingerstyle Guitar eBook cover — handwritten notes with lessons, with Sargam, by Abhishek Nayak" width="800" height="1200" fetchpriority="high">
-          </picture>
-          <div class="pdp-cover-badge" aria-hidden="true"><span><b data-off="fingerstyle"></b></span></div>
-        </div>
+        <div class="pdp-visual" data-book="fingerstyle" data-size="lg" data-sticker="fingerstyle" data-eager></div>
         <div class="pdp-copy">
-          <p class="eyebrow">Handwritten notes eBook · with Sargam</p>
+          <p class="eyebrow">Handwritten notes · with Sargam</p>
           <h1 id="pdp-title">Fingerstyle Guitar eBook</h1>
-          <p class="pdp-rating"><span class="stars" aria-hidden="true">★★★★★</span> Loved by students in India, the UK &amp; Canada · <a href="#reviews">Read reviews</a></p>
-          <p class="lead">Play the melody and the bass line together on one guitar — the way solo fingerstyle players do. Abhishek Sir’s handwritten lessons take you there step by step, with every song written in tabs <em>and</em> Sargam.</p>
+          <p class="lead">Play melody and bass together on one guitar — step by step, in Abhishek’s handwriting.</p>
           <div class="pdp-buy">
-            <div>
-              <div class="price"><span class="price-now" data-price="fingerstyle"></span><span class="price-was" data-mrp="fingerstyle"></span><span class="price-off" data-off="fingerstyle"></span></div>
-              <p class="price-save">You save <span data-save="fingerstyle"></span> today</p>
-            </div>
+            <div class="price"><span class="price-now" data-price="fingerstyle"></span><span class="price-was" data-mrp="fingerstyle"></span><span class="price-off" data-off="fingerstyle"></span></div>
             <span class="offer-timer offer-timer--light" data-offer-timer><span class="offer-timer-label" data-offer-label>Offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
             <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="fingerstyle" data-hero-cta>Get the eBook <span class="btn-arrow">→</span></button>
-            <ul class="pdp-assure">
-              <li>Instant access by email</li><li>PDF — phone, tablet, laptop</li><li>Lifetime access</li><li>Secure payment by Razorpay</li>
-            </ul>
+            <ul class="assure"><li>Instant email access</li><li>PDF · any device</li><li>Lifetime access</li><li>Secure Razorpay</li></ul>
           </div>
           <p class="returning-note" data-returning hidden></p>
-          <p class="muted" style="margin-top:14px;font-size:.9375rem">Want both books? <a href="#combo">Get the combo for <b data-price="combo"></b></a> — save <span data-save="combo"></span>.</p>
+          <a class="combo-hint" href="#combo">Want both books? Save more with the combo →</a>
         </div>
       </div>
     </section>
 
-    <!-- ================= BENEFITS ================= -->
-    <section class="section section--sand" aria-labelledby="benefits-title">
+    <!-- ============ PROMISE ============ -->
+    <section class="promise" aria-label="What this eBook gives you">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">What you’ll be able to do</p>
-          <h2 id="benefits-title">From strumming chords to playing whole songs solo</h2>
-        </div>
-        <!-- ✏️ EDIT benefits -->
-        <div class="benefits">
-          <article class="benefit" data-reveal><span class="benefit-num">01</span><h3>Play melody + bass together</h3><p>The core fingerstyle skill — your thumb keeps the bass going while your fingers play the tune.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">02</span><h3>Read tabs and Sargam</h3><p>Every piece is written in guitar tabs with Sa Re Ga Ma alongside, so Indian melodies make sense on the fretboard.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">03</span><h3>Build a strong right hand</h3><p>P-I-M-A finger patterns, arpeggios and thumb independence, practised in short daily exercises.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">04</span><h3>Learn songs you know</h3><p>Lessons use familiar film and popular melodies so practice never feels like homework.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">05</span><h3>Practise without a teacher</h3><p>Handwritten, step-by-step — the same notes Abhishek Sir’s live students learn from.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">06</span><h3>Keep it forever</h3><p>One PDF, yours for life. Read on your phone, or print the pages for your music stand.</p></article>
-        </div>
+        <p class="promise-line">One guitar. Melody <em>and</em> bass. <span>No backing track needed.</span></p>
+        <div class="stat-strip"><div><b>48</b><span>handwritten pages</span></div><div><b>5</b><span>core lessons</span></div><div><b>7+</b><span>full songs</span></div><div><b>35</b><span>strumming patterns</span></div></div>
       </div>
     </section>
 
-    <!-- ================= WHAT'S INSIDE ================= -->
-    <section class="section section--dark" aria-labelledby="inside-title">
-      <div class="container inside">
-        <div>
-          <p class="eyebrow">What’s inside</p>
-          <h2 id="inside-title">Handwritten lessons, in the order you should learn them</h2>
-          <p class="lead">No random collection of songs. Each section builds on the previous one, from your first finger pattern to complete arrangements.</p>
-          <p class="muted" style="color:var(--on-dark-muted)">Format: PDF of handwritten notes · Language: English with Sargam</p>
-        </div>
-        <!-- ✏️ SAMPLE chapter list — replace with the real table of contents -->
-        <ol class="chapters">
-          <li><div><b>Fingerstyle basics</b><span>Posture, nails, P-I-M-A, reading the notation used in the book</span></div></li>
-          <li><div><b>Right-hand patterns</b><span>Arpeggios and Travis-style thumb patterns over common chords</span></div></li>
-          <li><div><b>Sargam on the fretboard</b><span>Mapping Sa Re Ga Ma to strings and frets in common keys</span></div></li>
-          <li><div><b>Melody first</b><span>Single-line melodies of familiar songs, in tabs and Sargam</span></div></li>
-          <li><div><b>Adding the bass</b><span>Combining melody with bass notes — the fingerstyle sound</span></div></li>
-          <li><div><b>Full song lessons</b><span>Complete arrangements, broken into practisable parts</span></div></li>
-          <li><div><b>Practice plans</b><span>How to practise each lesson, and how to know you’re ready to move on</span></div></li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ================= PREVIEW ================= -->
-    <section class="section" aria-labelledby="preview-title">
+    <!-- ============ WHAT'S INSIDE ============ -->
+    <section class="section section--tight" aria-labelledby="inside-title">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Look inside</p>
-          <h2 id="preview-title">Preview pages</h2>
-          <p class="muted">Real pages from the eBook.</p>
-        </div>
-        <!-- ✏️ To add a preview page: put the image in /assets/img/ebooks/previews/ and replace one
-             <figure class="preview preview--empty">…</figure> with:
-             <figure class="preview"><img src="/assets/img/ebooks/previews/fingerstyle-1.jpg" alt="Page from the Fingerstyle eBook" loading="lazy"></figure> -->
-        <div class="previews">
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-        </div>
+        <p class="eyebrow">What’s inside</p>
+        <h2 id="inside-title" class="h3">Four parts. All handwritten.</h2>
+        <div class="inside-grid"><article class="inside-card" data-reveal><span class="inside-num">01</span><h3>Core lessons</h3><p>C major scale, hand positions, base-note & formula methods</p></article><article class="inside-card" data-reveal><span class="inside-num">02</span><h3>Song lessons</h3><p>Hai Apna Dil, Ajeeb Dastan Hai Ye, Namo Namo Ji Shankara & more</p></article><article class="inside-card" data-reveal><span class="inside-num">03</span><h3>Sargam + notation</h3><p>Every phrase in Sa Re Ga Ma, finger by finger</p></article><article class="inside-card" data-reveal><span class="inside-num">04</span><h3>Strumming patterns</h3><p>Rumba, tremolo, kehrwa, waltz, rasgueado & more</p></article></div>
       </div>
     </section>
 
-    <!-- ================= WHO FOR ================= -->
-    <section class="section section--sand" aria-labelledby="who-title">
+    <!-- ============ FREE PREVIEW (pages listed in js/content/ebooks.js) ============ -->
+    <section class="section section--sand section--tight" id="preview" aria-labelledby="preview-title">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">Is it for you?</p><h2 id="who-title">Who this eBook is for</h2></div>
-        <div class="who">
-          <div class="who-card"><h3>Great for you if…</h3><ul>
-            <li>You can play a few chords and want to go beyond strumming</li>
-            <li>You love the sound of solo guitar covers on Instagram/YouTube</li>
-            <li>You understand Sargam better than staff notation</li>
-            <li>You want structured practice, not random tutorials</li>
-          </ul></div>
-          <div class="who-card who-card--no"><h3>Maybe not yet if…</h3><ul>
-            <li>You’ve never held a guitar — start with our <a href="/">1-on-1 classes</a> or basics first</li>
-            <li>You’re looking for video lessons only — this is a written (PDF) eBook</li>
-          </ul></div>
+        <div class="split-head">
+          <div><p class="eyebrow">Free preview</p><h2 id="preview-title" class="h3">Look inside</h2></div>
         </div>
+        <div data-preview="fingerstyle"></div>
       </div>
     </section>
 
-    <!-- ================= REVIEWS ================= -->
-    <section class="section" id="reviews" aria-labelledby="reviews-title">
+    <!-- ============ BENEFITS / WHO FOR ============ -->
+    <section class="section section--tight" aria-labelledby="benefit-title">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">Reviews</p><h2 id="reviews-title">What readers say</h2></div>
-        <div data-reviews="fingerstyle" data-review-kinds="text,video,image"></div>
+        <h2 id="benefit-title" class="h3 center">What you’ll get out of it</h2>
+        <div class="why-grid why-grid--3"><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><b>Melody + bass</b><span>The real fingerstyle sound</span></div><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V4a1.5 1.5 0 0 1 3 0v7M14 11V5a1.5 1.5 0 0 1 3 0v8c0 4-3 7-6.5 7S5 17.5 5 15l-1-3a1.5 1.5 0 0 1 2.7-1.2L8 13"/></svg></span><b>Strong right hand</b><span>P-I-M-A patterns that stick</span></div><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><b>Practise alone</b><span>Clear, step-by-step pages</span></div></div>
+        <p class="perfect-for"><b>Perfect for:</b> Players who know a few chords and want to go beyond strumming.</p>
       </div>
     </section>
 
-    <!-- ================= AUTHOR ================= -->
-    <section class="section section--sand" aria-labelledby="teacher-title">
+    <!-- ============ COMBO ============ -->
+    <section class="section section--tight" id="combo" aria-labelledby="combo-title">
       <div class="container">
-        <div class="founder" data-founder></div>
-      </div>
-    </section>
-
-    <!-- ================= PRICING ================= -->
-    <section class="section" id="pricing" aria-labelledby="pricing-title">
-      <div class="container">
-        <div class="section-head section-head--center">
-          <p class="eyebrow">Get instant access</p>
-          <h2 id="pricing-title">Choose your pack</h2>
-          <span class="offer-timer" data-offer-timer><span class="offer-timer-label" data-offer-label>Launch offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
-        </div>
-        <div class="pricing">
-          <article class="plan">
-            <div class="plan-top">
-              <picture><source srcset="/assets/img/ebooks/fingerstyle-cover-480.webp" type="image/webp"><img src="/assets/img/ebooks/fingerstyle-cover-480.jpg" alt="" width="480" height="720" loading="lazy"></picture>
-              <div><h3>Fingerstyle Guitar eBook</h3><p class="plan-sub">Handwritten lessons with Sargam</p></div>
-            </div>
-            <div>
-              <div class="price"><span class="price-now" data-price="fingerstyle"></span><span class="price-was" data-mrp="fingerstyle"></span><span class="price-off" data-off="fingerstyle"></span></div>
-              <ul style="margin-top:16px"><li>Complete Fingerstyle eBook (PDF)</li><li>Instant email delivery</li><li>Lifetime access</li></ul>
-            </div>
-            <button type="button" class="btn btn--dark btn--lg btn--block" data-buy="fingerstyle">Get Fingerstyle eBook</button>
-          </article>
-          <article class="plan plan--best" id="combo">
+        <div class="combo">
+          <div class="combo-visual" aria-hidden="true">
+            <div data-book="fingerstyle" data-size="sm"></div>
+            <div data-book="chord" data-size="sm"></div>
+          </div>
+          <div class="combo-copy">
             <span class="plan-ribbon">Best value</span>
-            <div class="plan-top">
-              <picture><source srcset="/assets/img/ebooks/combo-covers.webp" type="image/webp"><img src="/assets/img/ebooks/combo-covers.jpg" alt="" width="900" height="825" loading="lazy" style="width:110px"></picture>
-              <div><h3>Combo: Both eBooks</h3><p class="plan-sub">Fingerstyle + Chord Modulation Theory</p></div>
-            </div>
-            <div>
-              <div class="price"><span class="price-now" data-price="combo"></span><span class="price-was" data-mrp="combo"></span><span class="price-off" data-off="combo"></span></div>
-              <p class="price-save">Save <span data-save="combo"></span> vs. the original price</p>
-              <ul style="margin-top:16px"><li>Fingerstyle Guitar eBook</li><li>Chord Modulation Theory eBook</li><li>Both links in one email, instantly</li><li>Lifetime access</li></ul>
-            </div>
+            <h2 id="combo-title" class="h3">Get Both eBooks</h2>
+            <p>Fingerstyle + Chord Modulation Theory</p>
+            <div class="price"><span class="price-now" data-price="combo"></span><span class="price-was" data-mrp="combo"></span><span class="price-off" data-off="combo"></span></div>
+          </div>
+          <div class="combo-cta">
             <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="combo">Get both eBooks</button>
-          </article>
+            <p class="small">Both links in one email · Save <span data-save="combo"></span></p>
+          </div>
         </div>
-        <div class="pricing-foot muted"><span>🔒 Secure payment by Razorpay · UPI, cards, net banking</span><button type="button" class="linklike" data-open-payment-help>Payment problem?</button></div>
       </div>
     </section>
 
-    <!-- ================= FAQ ================= -->
-    <section class="section section--sand" id="faq" aria-labelledby="faq-title">
+    <!-- ============ OTHER EBOOK ============ -->
+    <section class="section section--tight" style="padding-top:0" aria-label="You may also like">
+      <div class="container"><div data-other-book="chord"></div></div>
+    </section>
+
+    <!-- ============ REVIEWS ============ -->
+    <section class="section section--sand" id="reviews" aria-labelledby="reviews-title">
+      <div class="container">
+        <p class="eyebrow">Readers</p>
+        <h2 id="reviews-title" class="h3">What readers say</h2>
+        <div data-reviews="fingerstyle" data-review-kinds="video,text,image" data-limit="3"></div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section section--tight" id="faq" aria-labelledby="faq-title">
       <div class="container container--narrow">
-        <div class="section-head section-head--center"><p class="eyebrow">FAQ</p><h2 id="faq-title">Questions, answered</h2></div>
+        <h2 id="faq-title" class="h3 center">Quick answers</h2>
         <div data-faq="fingerstyle,payments,access,refunds,support"></div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="section section--dark final-buy" id="pricing" aria-labelledby="final-title">
+      <div class="container final-buy-inner">
+        <div class="final-buy-visual" data-book="fingerstyle" data-size="md" data-sticker="fingerstyle"></div>
+        <div>
+          <h2 id="final-title" class="h3">Fingerstyle Guitar eBook</h2>
+          <div class="price"><span class="price-now" data-price="fingerstyle"></span><span class="price-was" data-mrp="fingerstyle"></span><span class="price-off" data-off="fingerstyle"></span></div>
+          <span class="offer-timer " data-offer-timer><span class="offer-timer-label" data-offer-label>Launch offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
+          <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="fingerstyle">Get Fingerstyle eBook</button>
+          <p class="small final-buy-help">🔒 Secure Razorpay checkout · <button type="button" class="linklike" data-open-payment-help>Payment problem?</button></p>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="buybar" aria-hidden="false">
-    <div class="buybar-price"><b data-price="fingerstyle"></b><s data-mrp="fingerstyle"></s><small>Fingerstyle Guitar eBook</small></div>
-    <button type="button" class="btn btn--primary" data-buy="fingerstyle">Get the eBook</button>
+  <div class="buybar" aria-hidden="true">
+    <div class="buybar-thumb" aria-hidden="true"><img src="/assets/img/ebooks/fingerstyle-flat-360.jpg" alt="" width="36" height="51" loading="lazy"></div>
+    <div class="buybar-price"><small>Fingerstyle Guitar eBook</small><b data-price="fingerstyle"></b><s data-mrp="fingerstyle"></s></div>
+    <button type="button" class="btn btn--primary" data-buy="fingerstyle" tabindex="-1">Get Fingerstyle eBook</button>
   </div>
   <footer class="site-footer" data-site-footer></footer>
 </body>

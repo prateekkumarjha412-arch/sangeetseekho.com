@@ -69,8 +69,8 @@ export function renderFooter() {
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="logo logo--light" href="/">${LOGO_MARK}<span>Sangeet<b>Seekho</b></span></a>
-      <p>Live 1-on-1 guitar classes and handwritten guitar eBooks by ${SITE_CONFIG.FOUNDER} and team.</p>
-      <p class="footer-teachers">Teachers: <strong>Abhishek Sir</strong> · <strong>Rahul Sir</strong> · <strong>Sambit Sir</strong> · <strong>Girija Mam</strong></p>
+      <p>Live 1-on-1 guitar classes and handwritten guitar eBooks by ${SITE_CONFIG.FOUNDER}.</p>
+      <p class="footer-teachers">Classes taught by <strong>Abhishek Nayak</strong></p>
     </div>
     <div>
       <h2 class="footer-h">Learn</h2>
@@ -119,23 +119,19 @@ function paymentHelpDialog() {
   dlg.setAttribute('aria-labelledby', 'payhelp-title');
   dlg.innerHTML = `
     <div class="sheet-head">
-      <div>
-        <p class="eyebrow">Payment support</p>
-        <h2 id="payhelp-title" class="h4">Payment failed or access not received?</h2>
-      </div>
+      <h2 id="payhelp-title" class="h5">Payment issue? We’ll sort it.</h2>
       <button type="button" class="icon-btn" data-close aria-label="Close">${icons.close}</button>
     </div>
     <div class="sheet-body">
-      <p class="payhelp-note">If money was deducted, it is safe — send us the screenshot and we'll give you access manually. You can also pay directly by UPI below.</p>
       <div class="payhelp-grid">
         <figure class="payhelp-qr">
-          <img src="${escapeHtml(c.UPI_QR_IMAGE)}" alt="UPI QR code for ${escapeHtml(c.UPI_PAYEE_NAME)}" width="200" height="200" loading="lazy">
+          <img src="${escapeHtml(c.UPI_QR_IMAGE)}" alt="UPI QR code — pay ${escapeHtml(c.UPI_PAYEE_NAME)}" width="240" height="240" loading="lazy">
           <figcaption>Scan with any UPI app</figcaption>
         </figure>
         <div class="payhelp-rows">
           <div class="copy-row">
             <span class="copy-label">UPI ID</span>
-            <span class="copy-value" data-copy-value>${escapeHtml(upiReady ? c.UPI_ID : 'UPI ID coming soon')}</span>
+            <span class="copy-value">${escapeHtml(upiReady ? c.UPI_ID : 'Coming soon')}</span>
             <button type="button" class="copy-btn" data-copy="${escapeHtml(c.UPI_ID)}" ${upiReady ? '' : 'disabled'} aria-label="Copy UPI ID">${icons.copy}<span>Copy</span></button>
           </div>
           <div class="copy-row">
@@ -143,11 +139,11 @@ function paymentHelpDialog() {
             <span class="copy-value">${escapeHtml(c.PHONE_DISPLAY)}</span>
             <button type="button" class="copy-btn" data-copy="+${escapeHtml(c.WHATSAPP_NUMBER)}" aria-label="Copy phone number">${icons.copy}<span>Copy</span></button>
           </div>
-          ${upiReady ? `<a class="btn btn--ghost btn--block upi-app-btn" href="${upiLink}">Open UPI app</a>` : ''}
+          ${upiReady ? `<a class="upi-app-link" href="${upiLink}">Open UPI app →</a>` : ''}
         </div>
       </div>
-      <a class="btn btn--whatsapp btn--block btn--lg" href="${waLink(paymentProblemMessage())}" target="_blank" rel="noopener">${icons.whatsapp}<span>Send Payment Screenshot on WhatsApp</span></a>
-      <p class="payhelp-foot">We reply within working hours (${escapeHtml(c.SUPPORT_HOURS)}). Please include the amount, time of payment and the email you used.</p>
+      <a class="btn btn--whatsapp btn--block" href="${waLink(paymentProblemMessage())}" target="_blank" rel="noopener">${icons.whatsapp}<span>Send Screenshot on WhatsApp</span></a>
+      <p class="payhelp-foot">Money deducted? Don’t pay again — send the screenshot and we’ll give you access.</p>
     </div>`;
   document.body.appendChild(dlg);
   wireDialog(dlg);

@@ -24,7 +24,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://checkout.razorpay.com">
-  <link rel="preload" as="image" type="image/webp" href="/assets/img/ebooks/chord-modulation-cover.webp">
+  <link rel="preload" as="image" type="image/webp" href="/assets/img/ebooks/chord-modulation-flat.webp">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/sections.css">
@@ -33,170 +33,132 @@
 <body class="page-ebook" data-product="chord">
   <div class="offer-bar">
     <div class="container">
-      <span>Launch offer: <b data-price="chord"></b> instead of <s data-mrp="chord"></s></span>
-      <span class="offer-timer" data-offer-timer><span class="offer-timer-label" data-offer-label>Ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
+      <span>Launch offer: <b data-price="chord"></b> <s data-mrp="chord"></s></span>
+      <span class="offer-timer " data-offer-timer><span class="offer-timer-label" data-offer-label>Ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
     </div>
   </div>
   <header class="site-header" data-site-header></header>
 
   <main id="main">
+    <!-- ============ HERO ============ -->
     <section class="pdp-hero" aria-labelledby="pdp-title">
       <div class="container pdp-grid">
-        <div class="pdp-cover">
-          <picture>
-            <source type="image/webp" srcset="/assets/img/ebooks/chord-modulation-cover-480.webp 480w, /assets/img/ebooks/chord-modulation-cover.webp 800w" sizes="(max-width: 900px) 320px, 520px">
-            <img src="/assets/img/ebooks/chord-modulation-cover.jpg" alt="Chord Modulation Theory eBook cover — handwritten notes by Abhishek Nayak" width="800" height="1200" fetchpriority="high">
-          </picture>
-          <div class="pdp-cover-badge" aria-hidden="true"><span><b data-off="chord"></b></span></div>
-        </div>
+        <div class="pdp-visual" data-book="chord" data-size="lg" data-sticker="chord" data-eager></div>
         <div class="pdp-copy">
-          <p class="eyebrow">Handwritten notes eBook · Music theory for guitar</p>
+          <p class="eyebrow">Handwritten notes · music theory</p>
           <h1 id="pdp-title">Chord Modulation Theory</h1>
-          <p class="pdp-rating"><span class="stars" aria-hidden="true">★★★★★</span> “Neat, insightful, simple and practical” — Devroop, Bhubaneswar · <a href="#reviews">Reviews</a></p>
-          <p class="lead">Ever noticed a song suddenly lift into a new key — and wondered how to play that on guitar? This eBook explains chord modulation in plain language, with film-song examples you can try straight away.</p>
+          <p class="lead">How songs change key — explained through raags and film songs, in simple handwritten notes.</p>
           <div class="pdp-buy">
-            <div>
-              <div class="price"><span class="price-now" data-price="chord"></span><span class="price-was" data-mrp="chord"></span><span class="price-off" data-off="chord"></span></div>
-              <p class="price-save">You save <span data-save="chord"></span> today</p>
-            </div>
+            <div class="price"><span class="price-now" data-price="chord"></span><span class="price-was" data-mrp="chord"></span><span class="price-off" data-off="chord"></span></div>
             <span class="offer-timer offer-timer--light" data-offer-timer><span class="offer-timer-label" data-offer-label>Offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
             <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="chord" data-hero-cta>Get the eBook <span class="btn-arrow">→</span></button>
-            <ul class="pdp-assure">
-              <li>Instant access by email</li><li>PDF — phone, tablet, laptop</li><li>Lifetime access</li><li>Secure payment by Razorpay</li>
-            </ul>
+            <ul class="assure"><li>Instant email access</li><li>PDF · any device</li><li>Lifetime access</li><li>Secure Razorpay</li></ul>
           </div>
           <p class="returning-note" data-returning hidden></p>
-          <p class="muted" style="margin-top:14px;font-size:.9375rem">Want both books? <a href="#combo">Get the combo for <b data-price="combo"></b></a> — save <span data-save="combo"></span>.</p>
+          <a class="combo-hint" href="#combo">Want both books? Save more with the combo →</a>
         </div>
       </div>
     </section>
 
-    <section class="section section--sand" aria-labelledby="benefits-title">
+    <!-- ============ PROMISE ============ -->
+    <section class="promise" aria-label="What this eBook gives you">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">What you’ll understand</p><h2 id="benefits-title">The “why” behind the chords you already play</h2></div>
-        <!-- ✏️ EDIT benefits -->
-        <div class="benefits">
-          <article class="benefit" data-reveal><span class="benefit-num">01</span><h3>Keys and chord families</h3><p>Which chords belong together in a key, and why a song “feels” right — explained from the major scale up.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">02</span><h3>How songs change key</h3><p>Common-chord, direct and step-up modulations — the techniques composers use to lift a song.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">03</span><h3>Film-song examples</h3><p>Every idea is tied to songs, so you can hear the modulation and then play it.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">04</span><h3>Play it on guitar</h3><p>Chord shapes and progressions to move between keys smoothly — no jarring jumps.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">05</span><h3>Arrange your own songs</h3><p>Use modulation to make covers and medleys sound professional.</p></article>
-          <article class="benefit" data-reveal><span class="benefit-num">06</span><h3>Simple language</h3><p>Handwritten, step by step. No heavy jargon — written for guitarists, not exam-takers.</p></article>
-        </div>
+        <p class="promise-line">Know <em>why</em> the chords change. <span>Then change them yourself.</span></p>
+        <div class="stat-strip"><div><b>30</b><span>handwritten pages</span></div><div><b>7</b><span>major-scale conditions</span></div><div><b>6</b><span>minor-scale conditions</span></div><div><b>Raag</b><span>linked examples</span></div></div>
       </div>
     </section>
 
-    <section class="section section--dark" aria-labelledby="inside-title">
-      <div class="container inside">
-        <div>
-          <p class="eyebrow">What’s inside</p>
-          <h2 id="inside-title">From the major scale to smooth key changes</h2>
-          <p class="lead">Each chapter is short, handwritten and followed by examples. Read one a day and you’ll finish with a real understanding of how songs move.</p>
-          <p class="muted" style="color:var(--on-dark-muted)">Format: PDF of handwritten notes · Language: English</p>
-        </div>
-        <!-- ✏️ SAMPLE chapter list — replace with the real table of contents -->
-        <ol class="chapters">
-          <li><div><b>Notes, scales and keys</b><span>The major scale and how keys are built</span></div></li>
-          <li><div><b>Chord families</b><span>Diatonic chords, Roman numerals, relative minor</span></div></li>
-          <li><div><b>What modulation is</b><span>Hearing a key change, and why songs use it</span></div></li>
-          <li><div><b>Types of modulation</b><span>Common-chord (pivot), direct, step-up and more</span></div></li>
-          <li><div><b>Song examples</b><span>Modulations in well-known film songs, analysed</span></div></li>
-          <li><div><b>Modulating on guitar</b><span>Progressions and shapes to change key smoothly</span></div></li>
-          <li><div><b>Practice exercises</b><span>Try it yourself, with answers</span></div></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="preview-title">
+    <!-- ============ WHAT'S INSIDE ============ -->
+    <section class="section section--tight" aria-labelledby="inside-title">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">Look inside</p><h2 id="preview-title">Preview pages</h2><p class="muted">Real pages from the eBook.</p></div>
-        <!-- ✏️ Replace a placeholder with: <figure class="preview"><img src="/assets/img/ebooks/previews/chord-1.jpg" alt="Page from the Chord Modulation eBook" loading="lazy"></figure> -->
-        <div class="previews">
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-          <figure class="preview preview--empty">Sample page coming soon</figure>
-        </div>
+        <p class="eyebrow">What’s inside</p>
+        <h2 id="inside-title" class="h3">Four parts. All handwritten.</h2>
+        <div class="inside-grid"><article class="inside-card" data-reveal><span class="inside-num">01</span><h3>What modulation is</h3><p>Keys, intervals and the major scale — simply</p></article><article class="inside-card" data-reveal><span class="inside-num">02</span><h3>Major-scale conditions</h3><p>Bilawal, Khamaj, Yaman, Bhairav, Ahir Bhairav, Bhoopali, Charukeshi</p></article><article class="inside-card" data-reveal><span class="inside-num">03</span><h3>Minor-scale conditions</h3><p>Asavari, Kirwani, Kafi, Bhairavi, Patdeep, Shivranjani</p></article><article class="inside-card" data-reveal><span class="inside-num">04</span><h3>Diatonic chord formula</h3><p>Find the right chord for every swar</p></article></div>
       </div>
     </section>
 
-    <section class="section section--sand" aria-labelledby="who-title">
+    <!-- ============ FREE PREVIEW (pages listed in js/content/ebooks.js) ============ -->
+    <section class="section section--sand section--tight" id="preview" aria-labelledby="preview-title">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">Is it for you?</p><h2 id="who-title">Who this eBook is for</h2></div>
-        <div class="who">
-          <div class="who-card"><h3>Great for you if…</h3><ul>
-            <li>You play songs but don’t know why the chords work</li>
-            <li>You want to arrange covers, medleys or your own songs</li>
-            <li>Theory books felt too dry or too advanced</li>
-            <li>You’re an intermediate player ready for the next step</li>
-          </ul></div>
-          <div class="who-card who-card--no"><h3>Maybe not yet if…</h3><ul>
-            <li>You can’t play basic open chords yet — start with our <a href="/">1-on-1 classes</a></li>
-            <li>You want a video course — this is a written (PDF) eBook</li>
-          </ul></div>
+        <div class="split-head">
+          <div><p class="eyebrow">Free preview</p><h2 id="preview-title" class="h3">Look inside</h2></div>
         </div>
+        <div data-preview="chord"></div>
       </div>
     </section>
 
-    <section class="section" id="reviews" aria-labelledby="reviews-title">
+    <!-- ============ BENEFITS / WHO FOR ============ -->
+    <section class="section section--tight" aria-labelledby="benefit-title">
       <div class="container">
-        <div class="section-head"><p class="eyebrow">Reviews</p><h2 id="reviews-title">What readers say</h2></div>
-        <div data-reviews="chord" data-review-kinds="text,video,image"></div>
+        <h2 id="benefit-title" class="h3 center">What you’ll get out of it</h2>
+        <div class="why-grid why-grid--3"><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><b>Change key smoothly</b><span>No jarring jumps</span></div><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></svg></span><b>Hear it in songs</b><span>Film-song examples for each idea</span></div><div class="why" data-reveal><span class="why-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg></span><b>Arrange your own</b><span>Make covers sound complete</span></div></div>
+        <p class="perfect-for"><b>Perfect for:</b> Players who strum songs and want to know why the chords work.</p>
       </div>
     </section>
 
-    <section class="section section--sand" aria-labelledby="teacher-title">
-      <div class="container"><div class="founder" data-founder></div></div>
-    </section>
-
-    <section class="section" id="pricing" aria-labelledby="pricing-title">
+    <!-- ============ COMBO ============ -->
+    <section class="section section--tight" id="combo" aria-labelledby="combo-title">
       <div class="container">
-        <div class="section-head section-head--center">
-          <p class="eyebrow">Get instant access</p>
-          <h2 id="pricing-title">Choose your pack</h2>
-          <span class="offer-timer" data-offer-timer><span class="offer-timer-label" data-offer-label>Launch offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
-        </div>
-        <div class="pricing">
-          <article class="plan">
-            <div class="plan-top">
-              <picture><source srcset="/assets/img/ebooks/chord-modulation-cover-480.webp" type="image/webp"><img src="/assets/img/ebooks/chord-modulation-cover-480.jpg" alt="" width="480" height="720" loading="lazy"></picture>
-              <div><h3>Chord Modulation Theory</h3><p class="plan-sub">Handwritten theory notes for guitar</p></div>
-            </div>
-            <div>
-              <div class="price"><span class="price-now" data-price="chord"></span><span class="price-was" data-mrp="chord"></span><span class="price-off" data-off="chord"></span></div>
-              <ul style="margin-top:16px"><li>Complete Chord Modulation eBook (PDF)</li><li>Instant email delivery</li><li>Lifetime access</li></ul>
-            </div>
-            <button type="button" class="btn btn--dark btn--lg btn--block" data-buy="chord">Get Chord Modulation eBook</button>
-          </article>
-          <article class="plan plan--best" id="combo">
+        <div class="combo">
+          <div class="combo-visual" aria-hidden="true">
+            <div data-book="fingerstyle" data-size="sm"></div>
+            <div data-book="chord" data-size="sm"></div>
+          </div>
+          <div class="combo-copy">
             <span class="plan-ribbon">Best value</span>
-            <div class="plan-top">
-              <picture><source srcset="/assets/img/ebooks/combo-covers.webp" type="image/webp"><img src="/assets/img/ebooks/combo-covers.jpg" alt="" width="900" height="825" loading="lazy" style="width:110px"></picture>
-              <div><h3>Combo: Both eBooks</h3><p class="plan-sub">Fingerstyle + Chord Modulation Theory</p></div>
-            </div>
-            <div>
-              <div class="price"><span class="price-now" data-price="combo"></span><span class="price-was" data-mrp="combo"></span><span class="price-off" data-off="combo"></span></div>
-              <p class="price-save">Save <span data-save="combo"></span> vs. the original price</p>
-              <ul style="margin-top:16px"><li>Fingerstyle Guitar eBook</li><li>Chord Modulation Theory eBook</li><li>Both links in one email, instantly</li><li>Lifetime access</li></ul>
-            </div>
+            <h2 id="combo-title" class="h3">Get Both eBooks</h2>
+            <p>Fingerstyle + Chord Modulation Theory</p>
+            <div class="price"><span class="price-now" data-price="combo"></span><span class="price-was" data-mrp="combo"></span><span class="price-off" data-off="combo"></span></div>
+          </div>
+          <div class="combo-cta">
             <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="combo">Get both eBooks</button>
-          </article>
+            <p class="small">Both links in one email · Save <span data-save="combo"></span></p>
+          </div>
         </div>
-        <div class="pricing-foot muted"><span>🔒 Secure payment by Razorpay · UPI, cards, net banking</span><button type="button" class="linklike" data-open-payment-help>Payment problem?</button></div>
       </div>
     </section>
 
-    <section class="section section--sand" id="faq" aria-labelledby="faq-title">
+    <!-- ============ OTHER EBOOK ============ -->
+    <section class="section section--tight" style="padding-top:0" aria-label="You may also like">
+      <div class="container"><div data-other-book="fingerstyle"></div></div>
+    </section>
+
+    <!-- ============ REVIEWS ============ -->
+    <section class="section section--sand" id="reviews" aria-labelledby="reviews-title">
+      <div class="container">
+        <p class="eyebrow">Readers</p>
+        <h2 id="reviews-title" class="h3">What readers say</h2>
+        <div data-reviews="chord" data-review-kinds="video,text,image" data-limit="3"></div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section section--tight" id="faq" aria-labelledby="faq-title">
       <div class="container container--narrow">
-        <div class="section-head section-head--center"><p class="eyebrow">FAQ</p><h2 id="faq-title">Questions, answered</h2></div>
+        <h2 id="faq-title" class="h3 center">Quick answers</h2>
         <div data-faq="chord,payments,access,refunds,support"></div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="section section--dark final-buy" id="pricing" aria-labelledby="final-title">
+      <div class="container final-buy-inner">
+        <div class="final-buy-visual" data-book="chord" data-size="md" data-sticker="chord"></div>
+        <div>
+          <h2 id="final-title" class="h3">Chord Modulation Theory</h2>
+          <div class="price"><span class="price-now" data-price="chord"></span><span class="price-was" data-mrp="chord"></span><span class="price-off" data-off="chord"></span></div>
+          <span class="offer-timer " data-offer-timer><span class="offer-timer-label" data-offer-label>Launch offer ends in</span><span class="offer-timer-clock"><span data-t="h">01</span>:<span data-t="m">00</span>:<span data-t="s">00</span></span></span>
+          <button type="button" class="btn btn--primary btn--lg btn--block" data-buy="chord">Get Chord Modulation eBook</button>
+          <p class="small final-buy-help">🔒 Secure Razorpay checkout · <button type="button" class="linklike" data-open-payment-help>Payment problem?</button></p>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="buybar">
-    <div class="buybar-price"><b data-price="chord"></b><s data-mrp="chord"></s><small>Chord Modulation Theory</small></div>
-    <button type="button" class="btn btn--primary" data-buy="chord">Get the eBook</button>
+  <div class="buybar" aria-hidden="true">
+    <div class="buybar-thumb" aria-hidden="true"><img src="/assets/img/ebooks/chord-modulation-flat-360.jpg" alt="" width="36" height="51" loading="lazy"></div>
+    <div class="buybar-price"><small>Chord Modulation Theory</small><b data-price="chord"></b><s data-mrp="chord"></s></div>
+    <button type="button" class="btn btn--primary" data-buy="chord" tabindex="-1">Get Chord Modulation eBook</button>
   </div>
   <footer class="site-footer" data-site-footer></footer>
 </body>

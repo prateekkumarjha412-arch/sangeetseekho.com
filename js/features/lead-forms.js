@@ -65,7 +65,7 @@ export function initEnrollForm(form) {
 
     setStatus(status, 'info', '<span class="spinner" aria-hidden="true"></span> Saving your details…');
     const saving = sendReliable('lead.save', payload, id).then((r) => {
-      if (r.saved) setStatus(status, 'success', '✓ Your details are saved. Our team will contact you.');
+      if (r.saved) setStatus(status, 'success', '✓ Saved. Abhishek will reply on WhatsApp.');
       else setStatus(status, 'warn', 'Saved on this device — we’ll keep trying to send it. You can continue on WhatsApp.');
       return r;
     });

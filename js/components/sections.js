@@ -1,7 +1,7 @@
-/* Renders the editable content files (curriculum, FAQ, teachers, reviews) into the page. */
+/* Renders the editable content files (curriculum, FAQ, teacher, gurus, reviews) into the page. */
 import { CURRICULUM } from '../content/curriculum.js';
 import { FAQS } from '../content/faqs.js';
-import { FOUNDER, TEACHERS } from '../content/teachers.js';
+import { TEACHER, GURUS } from '../content/teachers.js';
 import { TEXT_REVIEWS, IMAGE_REVIEWS, VIDEO_REVIEWS } from '../content/testimonials.js';
 import { escapeHtml as e, picture } from '../core/utils.js';
 import { icons } from './ui.js';
@@ -9,110 +9,87 @@ import { videoMarkup, initVideos } from './video.js';
 
 const stars = (n = 5) => `<span class="stars" aria-label="${n} out of 5 stars">${icons.star.repeat(n)}</span>`;
 
+/** Compact level cards: level badge, title, topics as chips, outcome in one line. */
 export function renderCurriculum(el) {
   if (!el) return;
-  el.innerHTML = CURRICULUM.map((lvl, i) => `
-    <details class="curr-level" ${i === 0 ? 'open' : ''}>
-      <summary>
-        <span class="curr-badge">${e(lvl.level)}</span>
-        <span class="curr-title"><strong>${e(lvl.title)}</strong><small>${e(lvl.duration)}</small></span>
-        <span class="curr-chevron" aria-hidden="true"></span>
-      </summary>
-      <div class="curr-body">
-        <p class="curr-outcome"><b>You’ll be able to:</b> ${e(lvl.outcome)}</p>
-        <div class="curr-modules">
-          ${lvl.modules.map((m) => `<div class="curr-module"><h4>${e(m.title)}</h4><ul>${m.topics.map((t) => `<li>${e(t)}</li>`).join('')}</ul></div>`).join('')}
-        </div>
-      </div>
-    </details>`).join('');
+  el.innerHTML = CURRICULUM.map((lvl) => `
+    <article class="level-card" data-reveal>
+      <div class="level-top"><span class="curr-badge">${e(lvl.level)}</span><small>${e(lvl.duration)}</small></div>
+      <h3>${e(lvl.title)}</h3>
+      <p class="level-outcome">${e(lvl.outcome)}</p>
+      <ul class="level-topics">${lvl.modules.map((m) => `<li>${e(m.title)}</li>`).join('')}</ul>
+    </article>`).join('');
 }
 
 export function renderFAQ(el) {
   if (!el) return;
   const groups = (el.dataset.faq || '').split(',').map((s) => s.trim()).filter(Boolean);
-  const titles = { classes: 'Online classes', fingerstyle: 'Fingerstyle eBook', chord: 'Chord Modulation Theory', payments: 'Payments', access: 'Access & delivery', refunds: 'Refunds', support: 'Support' };
   const items = [];
   el.innerHTML = groups.map((g) => {
     const list = FAQS[g] || [];
     items.push(...list);
-    return `<div class="faq-group"><h3 class="faq-group-title">${e(titles[g] || g)}</h3>${list.map((f) => `
-      <details class="faq-item"><summary>${e(f.q)}<span class="faq-icon" aria-hidden="true"></span></summary><div class="faq-a"><p>${e(f.a)}</p></div></details>`).join('')}</div>`;
+    return list.map((f) => `
+      <details class="faq-item"><summary>${e(f.q)}<span class="faq-icon" aria-hidden="true"></span></summary><div class="faq-a"><p>${e(f.a)}</p></div></details>`).join('');
   }).join('');
-  // FAQ structured data for Google
   const ld = document.createElement('script');
   ld.type = 'application/ld+json';
   ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
   document.head.appendChild(ld);
 }
 
-const initials = (name) => name.replace(/\b(Sir|Mam)\b/g, '').trim().split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-
-export function renderFounder(el) {
+/** Abhishek's profile (the online-class teacher). */
+export function renderTeacher(el) {
   if (!el) return;
-  const f = FOUNDER;
+  const t = TEACHER;
   const stats = [
-    f.experience && { k: f.experience, v: 'teaching experience' },
-    f.studentsTaught && { k: f.studentsTaught, v: 'students taught' },
-    { k: '1-on-1', v: 'live video classes' },
-    { k: '2', v: 'published guitar eBooks' },
+    t.experience && { k: t.experience, v: 'teaching' },
+    t.studentsTaught && { k: t.studentsTaught, v: 'students' },
+    { k: '1-on-1', v: 'live classes' },
+    { k: '5', v: 'countries' },
   ].filter(Boolean);
   el.innerHTML = `
-    <div class="founder-media">
-      ${picture(f.photo, `${f.name} playing electric guitar`, { width: 900, height: 1200 })}
-      <div class="founder-badge">${stars()}<span>${e(f.ratingText)}</span></div>
-    </div>
+    <div class="founder-media">${picture(t.photo, `${t.name} with his guitar`, { width: 900, height: 1200 })}</div>
     <div class="founder-copy">
-      <p class="eyebrow">${e(f.role)}</p>
-      <h2 class="h2" id="teacher-title">Meet ${e(f.name)}</h2>
-      <p class="lead">${e(f.intro)}</p>
+      <p class="eyebrow">${e(t.role)}</p>
+      <h2 class="h2" id="teacher-title">Meet ${e(t.name)}</h2>
+      <p class="lead">${e(t.intro)}</p>
       <dl class="stat-row">${stats.map((s) => `<div><dt>${e(s.k)}</dt><dd>${e(s.v)}</dd></div>`).join('')}</dl>
-      <ul class="check-list">${f.achievements.map((a) => `<li>${icons.check}<span>${e(a)}</span></li>`).join('')}
-        <li>${icons.check}<span>Students from ${e(f.studentsFrom)}</span></li></ul>
-      <div class="chip-row">${f.specialities.map((s) => `<span class="chip">${e(s)}</span>`).join('')}</div>
+      <ul class="check-list">${t.points.map((a) => `<li>${icons.check}<span>${e(a)}</span></li>`).join('')}</ul>
     </div>`;
 }
 
-export function renderTeachers(el) {
+/** Small, respectful "musical gurus" strip — these are Abhishek's teachers, not staff. */
+export function renderGurus(el) {
   if (!el) return;
-  el.innerHTML = TEACHERS.map((t) => `
-    <article class="teacher-card">
-      <div class="teacher-avatar">${t.photo ? picture(t.photo, t.name, { width: 160, height: 160 }) : `<span aria-hidden="true">${e(initials(t.name))}</span>`}</div>
-      <div>
-        <h3 class="teacher-name">${e(t.name)}</h3>
-        <p class="teacher-role">${e(t.role)}</p>
-        <p class="teacher-bio">${e(t.bio)}</p>
-        <div class="chip-row chip-row--sm">${(t.highlights || []).map((h) => `<span class="chip">${e(h)}</span>`).join('')}</div>
-      </div>
-    </article>`).join('');
+  el.innerHTML = GURUS.map((g) => `<li class="guru"><span>${e(g.name)}</span></li>`).join('');
 }
 
+const initials = (name) => name.trim().split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 const forProduct = (list, product) => list.filter((r) => !product || r.product === 'any' || r.product === product);
 
-/** data-reviews="fingerstyle" (or chord / class) and data-review-kinds="text,video,image" */
+/** data-reviews="fingerstyle|chord|class", data-review-kinds="video,text,image", data-limit="3" (text quotes) */
 export function renderReviews(el) {
   if (!el) return;
   const product = el.dataset.reviews || '';
-  const kinds = (el.dataset.reviewKinds || 'text,video,image').split(',');
+  const kinds = (el.dataset.reviewKinds || 'video,text,image').split(',');
+  const limit = Number(el.dataset.limit || 99);
   let html = '';
+  if (kinds.includes('video')) {
+    const vids = forProduct(VIDEO_REVIEWS, product);
+    if (vids.length) html += `<div class="rail rail--videos">${vids.map((v) => `<figure class="rail-item">${videoMarkup(v, { title: v.caption })}<figcaption>${e(v.name)}${v.place ? ` · ${e(v.place)}` : ''}</figcaption></figure>`).join('')}</div>`;
+  }
   if (kinds.includes('text')) {
-    html += `<div class="quote-grid">${forProduct(TEXT_REVIEWS, product).map((r) => `
+    html += `<div class="quote-row">${forProduct(TEXT_REVIEWS, product).slice(0, limit).map((r) => `
       <figure class="quote">
         ${stars()}
         <blockquote><p>“${e(r.quote)}”</p></blockquote>
         <figcaption><span class="quote-avatar" aria-hidden="true">${e(initials(r.name))}</span><span><b>${e(r.name)}</b><small>${e(r.place)}</small></span></figcaption>
       </figure>`).join('')}</div>`;
   }
-  if (kinds.includes('video')) {
-    const vids = forProduct(VIDEO_REVIEWS, product);
-    if (vids.length) html += `<h3 class="sub-title">Video reviews</h3><div class="rail rail--videos">${vids.map((v) => `<figure class="rail-item">${videoMarkup(v, { title: v.caption })}<figcaption>${e(v.name)}${v.place ? ` · ${e(v.place)}` : ''}</figcaption></figure>`).join('')}</div>`;
-  }
   if (kinds.includes('image')) {
     const imgs = forProduct(IMAGE_REVIEWS, product);
     const grid = `<div class="masonry">${imgs.map((r) => `<figure class="shot">${picture(r.image, r.alt, { width: r.w, height: r.h })}</figure>`).join('')}</div>`;
-    // When text quotes are shown too, keep the screenshots one tap away (proof without repetition).
-    if (imgs.length) html += kinds.includes('text')
-      ? `<details class="shots-toggle"><summary>See the original WhatsApp messages (${imgs.length})</summary>${grid}</details>`
-      : `<h3 class="sub-title">Straight from WhatsApp</h3>${grid}`;
+    if (imgs.length) html += `<details class="shots-toggle"><summary>See the original WhatsApp messages (${imgs.length})</summary>${grid}</details>`;
   }
   el.innerHTML = html;
   initVideos(el);

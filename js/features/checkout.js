@@ -18,7 +18,7 @@
    - State machine prevents double clicks, double Razorpay windows and double verifies.
    - Prices are only for display: the SERVER decides the amount for each product. */
 import { PRODUCT_CONFIG, PAYMENT_CONFIG } from '../config.js';
-import { call, sendReliable, ping } from '../core/api.js';
+import { call, sendReliable, ping, backendReady } from '../core/api.js';
 import { attachLiveValidation, validateForm, formData, normalizePhone } from '../core/validate.js';
 import { uid, inr, sleep, getCookie, getLeadSource, describeSource, escapeHtml as e, isPlaceholder } from '../core/utils.js';
 import { local, session } from '../core/storage.js';
@@ -26,7 +26,7 @@ import { log, warn, error } from '../core/logger.js';
 import { track, productParams } from '../analytics/pixel.js';
 import { runFinalCountdown } from '../components/cta-countdown.js';
 import { openDialog, closeDialog, wireDialog, icons } from '../components/ui.js';
-import { waLink } from './whatsapp.js';
+import { waLink, paymentProblemMessage } from './whatsapp.js';
 
 const RZP_SRC = 'https://checkout.razorpay.com/v1/checkout.js';
 const ATTEMPT_KEY = 'ss_checkout_attempt_v1';
@@ -132,12 +132,14 @@ function buildDialog() {
       </div>
 
       <div class="ck-panel ck-center" data-panel="failed" hidden>
-        <h3 class="h4">Payment didn’t go through</h3>
+        <div class="ck-fail-ico" aria-hidden="true">!</div>
+        <h3 class="h4">Payment could not be completed.</h3>
         <p class="ck-reason muted"></p>
-        <p class="muted">You can try again with another method (UPI usually works best), or pay by UPI QR and send us the screenshot.</p>
+        <p class="muted small">If money was deducted, don’t pay again — contact us.</p>
         <div class="ck-actions">
           <button type="button" class="btn btn--primary btn--block" data-retry>Try again</button>
-          <button type="button" class="btn btn--ghost btn--block" data-open-payment-help>Pay by UPI / QR</button>
+          <button type="button" class="btn btn--ghost btn--block" data-open-payment-help>Payment support (UPI / QR)</button>
+          <a class="btn btn--whatsapp btn--block" data-wa-fail target="_blank" rel="noopener">${icons.whatsapp}<span>WhatsApp support</span></a>
         </div>
       </div>
 
@@ -268,6 +270,8 @@ async function openRazorpay() {
     Promise.race([orderPromise || Promise.resolve(null), sleep(PAYMENT_CONFIG.ORDER_GRACE_MS).then(() => null)]),
   ]);
   if (!scriptOk) return fail('error', 'Razorpay could not load. Please check your internet connection and try again.');
+  // Safety: never take a LIVE payment if the server that verifies it and delivers the eBook isn't connected yet.
+  if (!backendReady()) return fail('error', 'Online payment is being set up. Please message us on WhatsApp to buy — we’ll help you right away.');
 
   const keyId = (order && order.keyId) || PAYMENT_CONFIG.RAZORPAY_KEY_ID;
   if (isPlaceholder(keyId)) return fail('error', 'Payments are not switched on yet. Please message us on WhatsApp to buy.');
@@ -297,6 +301,7 @@ async function openRazorpay() {
         log(failed ? 'checkout.failed_closed' : 'checkout.dismissed');
         setState(failed ? 'failed' : 'cancelled');
         if (failed) dlg.querySelector('.ck-reason').textContent = friendlyReason(lastFailure);
+        if (failed) dlg.querySelector('[data-wa-fail]').href = waLink(paymentProblemMessage(`Product: ${PRODUCT_CONFIG[current.productKey].name}${lastFailure && lastFailure.paymentId ? `\nPayment ID: ${lastFailure.paymentId}` : ''}`));
         showPanel(failed ? 'failed' : 'cancelled');
         openDialog(dlg);
       },

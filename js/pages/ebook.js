@@ -1,7 +1,8 @@
 /* eBook landing pages. The page says which product it is: <body data-product="fingerstyle">. */
 import { boot } from '../main.js';
 import { PRODUCT_CONFIG, SITE_CONFIG } from '../config.js';
-import { renderFAQ, renderReviews, renderFounder } from '../components/sections.js';
+import { renderFAQ, renderReviews } from '../components/sections.js';
+import { initBooks, renderPreview, renderOtherBook } from '../components/books.js';
 import { initOfferTimers } from '../components/offer-timer.js';
 import { initBuyButtons, getPurchases } from '../features/checkout.js';
 import { track, productParams } from '../analytics/pixel.js';
@@ -12,16 +13,17 @@ boot();
 const key = document.body.dataset.product;
 const product = PRODUCT_CONFIG[key];
 
+initBooks();
+renderPreview(document.querySelector('[data-preview]'));
+renderOtherBook(document.querySelector('[data-other-book]'));
+initBooks();
 renderFAQ(document.querySelector('[data-faq]'));
 renderReviews(document.querySelector('[data-reviews]'));
-renderFounder(document.querySelector('[data-founder]'));
 initOfferTimers();
 initBuyButtons();
 
 if (product) {
   track('ViewContent', productParams(product), uid('vc'));
-
-  // Product structured data (Google rich results)
   const ld = document.createElement('script');
   ld.type = 'application/ld+json';
   ld.textContent = JSON.stringify({
@@ -33,18 +35,27 @@ if (product) {
   document.head.appendChild(ld);
 }
 
-// Sticky mobile buy bar: appears after the hero's buy button scrolls away, hides at the pricing section.
+/* Persistent "Get the eBook" bar (mobile: full-width bottom bar · desktop: compact floating pill).
+   Shown once the hero's buy button has scrolled away; hidden while the final buy section is on screen,
+   so it never covers the main price/CTA. */
 const bar = document.querySelector('.buybar');
 const heroCta = document.querySelector('[data-hero-cta]');
-const pricing = document.querySelector('#pricing');
+const finalCta = document.querySelector('#pricing');
 if (bar && heroCta && 'IntersectionObserver' in window) {
-  let heroVisible = true, pricingVisible = false;
-  const update = () => { const show = !heroVisible && !pricingVisible; bar.classList.toggle('is-visible', show); document.body.classList.toggle('has-buybar', show); };
+  let heroVisible = true, finalVisible = false;
+  const update = () => {
+    const show = !heroVisible && !finalVisible;
+    bar.classList.toggle('is-visible', show);
+    bar.setAttribute('aria-hidden', String(!show));
+    bar.querySelectorAll('a,button').forEach((x) => { x.tabIndex = show ? 0 : -1; });
+    document.body.classList.toggle('has-buybar', show);
+  };
   new IntersectionObserver(([en]) => { heroVisible = en.isIntersecting; update(); }).observe(heroCta);
-  if (pricing) new IntersectionObserver(([en]) => { pricingVisible = en.isIntersecting; update(); }, { threshold: 0.15 }).observe(pricing);
+  if (finalCta) new IntersectionObserver(([en]) => { finalVisible = en.isIntersecting; update(); }, { threshold: 0.2 }).observe(finalCta);
+  update();
 }
 
-// Returning buyer: show a link back to their access page (helps if the browser was closed after paying).
+// Returning buyer: link back to their access page (helps if the browser was closed after paying).
 const recent = getPurchases().filter((p) => Date.now() - p.ts < 30 * 24 * 3600 * 1000).pop();
 const note = document.querySelector('[data-returning]');
 if (recent && note) {

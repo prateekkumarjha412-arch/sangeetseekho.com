@@ -1,46 +1,25 @@
-/* ✏️ TEACHERS — edit text freely.
-   - Any field set to null is simply hidden on the website.
-   - photo: path WITHOUT .webp/.jpg (put both files in /assets/img/teachers/). null = initials avatar.
-   ⚠️ Facts marked CONFIRM must be checked by you before going live. */
+/* ✏️ TEACHER + GURUS — edit text freely.
+   - Abhishek Nayak teaches the online classes.
+   - GURUS are the respected teachers Abhishek learned from. They are NOT part of a
+     Sangeet Seekho team and do not teach the online classes.
+   - Any field set to null is hidden on the website. */
 
-export const FOUNDER = {
+export const TEACHER = {
   name: 'Abhishek Nayak',
-  callName: 'Abhishek Sir',
-  role: 'Founder & Head Guitar Teacher',
-  photo: '/assets/img/teachers/abhishek-nayak',
-  intro: 'Abhishek teaches fingerstyle and song-based guitar one-on-one over video call. He writes every lesson by hand — chord shapes, tabs and Sargam side by side — so students can practise from the notes long after class ends. His two eBooks grew out of the same notes he uses with his own students.',
-  experience: null,          // CONFIRM e.g. '8+ years teaching guitar'
-  studentsTaught: null,      // CONFIRM e.g. '500+ students'
-  studentsFrom: 'India, Malaysia, Poland, the UK and Canada',
-  specialities: ['Fingerstyle guitar', 'Bollywood & film-song arrangements', 'Chord theory & modulation', 'Sargam-based notation'],
-  achievements: [
-    'Author of the Fingerstyle Guitar eBook and Chord Modulation Theory eBook',
-    'Teaches students across India and abroad live, one-on-one',
-    'Students play full fingerstyle song arrangements on a single guitar',
+  role: 'Your guitar teacher',
+  photo: '/assets/img/teachers/abhishek-nayak',   // without .webp/.jpg
+  intro: 'I teach fingerstyle and song-based guitar one-on-one — and I write every lesson by hand, so you can keep practising long after class.',
+  experience: null,          // CONFIRM e.g. '8+ yrs'  (shown as a stat when filled in)
+  studentsTaught: null,      // CONFIRM e.g. '500+'
+  points: [
+    'Author of 2 handwritten guitar eBooks',
+    'Students in India, Malaysia, Poland, UK & Canada',
+    'Fingerstyle, film songs, chords & theory',
   ],
-  ratingText: '5-star feedback from students',
 };
 
-export const TEACHERS = [
-  {
-    name: 'Rahul Sir',
-    role: 'Fingerstyle Guitar Teacher',
-    photo: null,
-    bio: 'Focuses on clean fingerstyle technique — thumb independence, right-hand patterns and playing melody and bass together on one guitar.',
-    highlights: ['Fingerstyle technique', 'Song arrangements'],   // CONFIRM / edit
-  },
-  {
-    name: 'Sambit Sir',
-    role: 'Guitar Teacher — Chords & Rhythm',
-    photo: null,
-    bio: 'Builds strong basics: chord changes, strumming, rhythm and timing, so beginners start playing real songs early.',
-    highlights: ['Beginners', 'Strumming & rhythm'],              // CONFIRM / edit
-  },
-  {
-    name: 'Girija Mam',
-    role: 'Senior Guitar Teacher',
-    photo: null,
-    bio: 'Brings decades of teaching experience with classical and flamenco-influenced fingerstyle, and a calm, step-by-step approach that suits learners of every age.',
-    highlights: ['Classical & flamenco technique', 'All ages'],   // CONFIRM / edit
-  },
+export const GURUS = [
+  { name: 'Rahul Deo Sir' },
+  { name: 'Girija Marathe Mam' },
+  { name: 'Sambit Chatterjee Sir' },
 ];
