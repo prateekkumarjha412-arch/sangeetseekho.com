@@ -45,7 +45,7 @@ export const BACKEND_CONFIG = {
   // Paste the WEB APP URL you get after "Deploy → New deployment" in Apps Script.
   // It looks like: https://script.google.com/macros/s/AKfy..../exec
   // ⚠️ NOT the editor link (script.google.com/home/projects/.../edit) — that one won't work.
-  GOOGLE_SCRIPT_URL: 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE',
+  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx_F9nJUCthOOtz6N1Qj83umvtfDWCIqB94Ki4lfHOCD5-Q49W6KoTHk7IwOClcF5VP/exec',
   REQUEST_TIMEOUT_MS: 15000,   // give up on one request after 15 seconds
 };
 
