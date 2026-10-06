@@ -35,31 +35,37 @@ export function picture(base, alt, { width, height, eager = false, sizes, cls = 
     `<img src="${base}.jpg" alt="${escapeHtml(alt)}" loading="${loading}" decoding="async"${dims}${fp}></picture>`;
 }
 
-/** Read first-touch marketing source (utm_*, fbclid, referrer). Stored for the session. */
+/** Marketing source of this visitor (utm_*, fbclid, external referrer).
+    Captured on the FIRST page they land on (boot() calls this on every page) and kept for
+    30 days, so a visitor who lands on the homepage from an Instagram ad and buys on an eBook
+    page is still credited to Instagram. A new ad click (new utm/fbclid) replaces it. */
 export function getLeadSource() {
-  const KEY = 'ss_source';
-  try {
-    const saved = sessionStorage.getItem(KEY);
-    if (saved) return JSON.parse(saved);
-  } catch (_) { /* storage blocked */ }
+  const KEY = 'ss_source_v2';
+  const MAX_AGE = 30 * 24 * 3600 * 1000;
   const p = new URLSearchParams(location.search);
-  const src = {
-    utm_source: p.get('utm_source') || '',
-    utm_medium: p.get('utm_medium') || '',
-    utm_campaign: p.get('utm_campaign') || '',
-    utm_content: p.get('utm_content') || '',
-    fbclid: p.get('fbclid') || '',
-    referrer: document.referrer ? new URL(document.referrer).hostname : '',
-    landing: location.pathname,
+  let ref = '';
+  try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (_) {}
+  const external = ref && ref !== location.hostname && !ref.endsWith('sangeetseekho.com');
+  const fresh = {
+    utm_source: p.get('utm_source') || '', utm_medium: p.get('utm_medium') || '',
+    utm_campaign: p.get('utm_campaign') || '', utm_content: p.get('utm_content') || '',
+    fbclid: p.get('fbclid') || '', referrer: external ? ref : '', landing: location.pathname, at: Date.now(),
   };
-  try { sessionStorage.setItem(KEY, JSON.stringify(src)); } catch (_) {}
-  return src;
+  const hasCampaign = fresh.utm_source || fresh.fbclid;
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) {}
+  if (saved && Date.now() - (saved.at || 0) > MAX_AGE) saved = null;
+  if (hasCampaign || (!saved && (fresh.referrer || !ref))) {
+    if (hasCampaign || !saved) { try { localStorage.setItem(KEY, JSON.stringify(fresh)); } catch (_) {} }
+    return fresh;
+  }
+  return saved || fresh;
 }
 
 export function describeSource(src = getLeadSource()) {
   if (src.utm_source) return [src.utm_source, src.utm_medium, src.utm_campaign].filter(Boolean).join(' / ');
   if (src.fbclid) return 'facebook / paid';
-  if (src.referrer && !src.referrer.includes('sangeetseekho')) return src.referrer;
+  if (src.referrer) return src.referrer;
   return 'direct';
 }
 

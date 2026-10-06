@@ -6,19 +6,36 @@ import { TEXT_REVIEWS, IMAGE_REVIEWS, VIDEO_REVIEWS } from '../content/testimoni
 import { escapeHtml as e, picture } from '../core/utils.js';
 import { icons } from './ui.js';
 import { videoMarkup, initVideos } from './video.js';
+import { openGallery } from './books.js';
+import { ASSET_CONFIG } from '../config.js';
 
 const stars = (n = 5) => `<span class="stars" aria-label="${n} out of 5 stars">${icons.star.repeat(n)}</span>`;
 
-/** Compact level cards: level badge, title, topics as chips, outcome in one line. */
+/** Curriculum: 3 short month cards + the real PDF pages (tap to zoom) + download. */
 export function renderCurriculum(el) {
   if (!el) return;
-  el.innerHTML = CURRICULUM.map((lvl) => `
-    <article class="level-card" data-reveal>
-      <div class="level-top"><span class="curr-badge">${e(lvl.level)}</span><small>${e(lvl.duration)}</small></div>
-      <h3>${e(lvl.title)}</h3>
-      <p class="level-outcome">${e(lvl.outcome)}</p>
-      <ul class="level-topics">${lvl.modules.map((m) => `<li>${e(m.title)}</li>`).join('')}</ul>
-    </article>`).join('');
+  const c = CURRICULUM;
+  el.innerHTML = `
+    <div class="month-grid">${c.months.map((m) => `
+      <article class="month-card" data-reveal>
+        <span class="curr-badge">${e(m.label)}</span>
+        <h3>${e(m.title)}</h3>
+        <ul>${m.highlights.map((h) => `<li>${e(h)}</li>`).join('')}</ul>
+      </article>`).join('')}</div>
+    <div class="curr-pdf">
+      <div class="curr-pdf-head">
+        <h3 class="h5">Full curriculum (PDF)</h3>
+        <span class="muted small">${c.pages.length} pages · tap a page to zoom${ASSET_CONFIG.CURRICULUM_PDF ? ` · <a href="${e(ASSET_CONFIG.CURRICULUM_PDF)}" target="_blank" rel="noopener">Open PDF</a>` : ''}</span>
+      </div>
+      <div class="curr-pages">${c.pages.map((p, i) => `
+        <button type="button" class="curr-page" data-page="${i}" aria-label="Open ${e(p.caption)}">
+          ${picture(p.img, p.caption, { width: p.w, height: p.h })}
+        </button>`).join('')}</div>
+    </div>`;
+  el.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-page]');
+    if (b) openGallery(c.pages.map((p) => ({ img: p.img, caption: p.caption })), Number(b.dataset.page));
+  });
 }
 
 export function renderFAQ(el) {

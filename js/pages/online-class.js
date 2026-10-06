@@ -38,6 +38,30 @@ document.addEventListener('click', (ev) => {
   if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
 });
 
+// First-screen chooser: "Online Classes" glides down to the classes section on this page;
+// "eBooks" reveals the two eBook options (each links to its own page).
+const chooser = document.querySelector('[data-chooser]');
+if (chooser) {
+  const ebBtn = chooser.querySelector('[data-choose="ebooks"]');
+  const sub = chooser.querySelector('#chooser-ebooks');
+  chooser.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-choose]');
+    if (!b) return;
+    if (b.dataset.choose === 'classes') {
+      const target = document.querySelector('#classes');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (target) target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      sub.hidden = true; ebBtn.setAttribute('aria-expanded', 'false'); ebBtn.classList.remove('is-open');
+    } else {
+      const open = sub.hidden;
+      sub.hidden = !open;
+      ebBtn.setAttribute('aria-expanded', String(open));
+      ebBtn.classList.toggle('is-open', open);
+      if (open) sub.querySelector('a').focus({ preventScroll: true });
+    }
+  });
+}
+
 // Curriculum PDF: use the file if configured, otherwise offer it on WhatsApp.
 document.querySelectorAll('[data-curriculum-pdf]').forEach((a) => {
   if (ASSET_CONFIG.CURRICULUM_PDF) {

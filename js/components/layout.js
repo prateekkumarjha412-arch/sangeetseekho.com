@@ -13,11 +13,10 @@ export const NAV = [
   { href: '/contact/', label: 'Contact', match: (p) => p.startsWith('/contact') },
 ];
 
-export const LOGO_MARK = `<svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true" width="34" height="34">
-  <rect width="40" height="40" rx="11" fill="currentColor"/>
-  <circle cx="20" cy="21" r="9.5" fill="none" stroke="var(--logo-ink,#FAF6EF)" stroke-width="2.4"/>
-  <path d="M16.5 6v30M20 6v30M23.5 6v30" stroke="var(--logo-ink,#FAF6EF)" stroke-width="1.4" opacity=".9"/>
-</svg>`;
+/* Master logos — light-background variant (header) and dark-background variant (footer).
+   Replace the image files in /assets/img/brand/ to update the logo everywhere. */
+export const LOGO_LIGHT_BG = `<picture><source srcset="/assets/img/brand/logo-light-600.webp" type="image/webp"><img class="logo-img" src="/assets/img/brand/logo-light-600.png" alt="Sangeet Seekho" width="600" height="195" decoding="async"></picture>`;
+export const LOGO_DARK_BG = `<picture><source srcset="/assets/img/brand/logo-dark-600.webp" type="image/webp"><img class="logo-img" src="/assets/img/brand/logo-dark-600.png" alt="Sangeet Seekho" width="600" height="214" loading="lazy" decoding="async"></picture>`;
 
 function headerCta(path) {
   if (path.startsWith('/fingerstyle-guitar-ebook') || path.startsWith('/chord-modulation-theory')) return { href: '#pricing', label: 'Get the eBook' };
@@ -33,7 +32,7 @@ export function renderHeader() {
   host.innerHTML = `
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="header-inner container">
-    <a class="logo" href="/" aria-label="${SITE_CONFIG.NAME} — home">${LOGO_MARK}<span>Sangeet<b>Seekho</b></span></a>
+    <a class="logo" href="/" aria-label="${SITE_CONFIG.NAME} — home">${LOGO_LIGHT_BG}</a>
     <nav class="nav" aria-label="Main">
       <ul id="nav-list" class="nav-list">
         ${NAV.map((n) => `<li><a href="${n.href}" ${n.match(path) ? 'aria-current="page"' : ''}>${n.label}</a></li>`).join('')}
@@ -68,7 +67,7 @@ export function renderFooter() {
   host.innerHTML = `
   <div class="container footer-grid">
     <div class="footer-brand">
-      <a class="logo logo--light" href="/">${LOGO_MARK}<span>Sangeet<b>Seekho</b></span></a>
+      <a class="logo logo--light" href="/" aria-label="${SITE_CONFIG.NAME} — home">${LOGO_DARK_BG}</a>
       <p>Live 1-on-1 guitar classes and handwritten guitar eBooks by ${SITE_CONFIG.FOUNDER}.</p>
       <p class="footer-teachers">Classes taught by <strong>Abhishek Nayak</strong></p>
     </div>

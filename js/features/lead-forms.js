@@ -132,31 +132,28 @@ export function initContactForm(form) {
 
     const ref = id.slice(-6).toUpperCase();
     const text = contactMessage({ ...d, ref });
-    const go = () => {
-      if (d.method === 'email') {
-        const subject = `Website enquiry from ${d.name} (Ref ${ref})`;
-        window.location.href = `mailto:${CONTACT_CONFIG.EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
-      } else {
-        goToWhatsApp(text);
-      }
-    };
-    runFinalCountdown(btn, {
-      text: (n) => `${d.method === 'email' ? 'Opening email' : 'Opening WhatsApp'} in ${n}s`,
-      onCancel: () => { state = 'idle'; },
-      onDone: async () => {
-        await Promise.race([saving, sleep(2500)]);
-        const done = form.parentElement.querySelector('.form-done');
-        if (done) {
-          done.querySelector('[data-fallback]').href = d.method === 'email'
-            ? `mailto:${CONTACT_CONFIG.EMAIL}?subject=${encodeURIComponent('Website enquiry (Ref ' + ref + ')')}&body=${encodeURIComponent(text)}`
-            : waLink(text);
-          done.querySelector('[data-fallback]').textContent = d.method === 'email' ? 'Email didn’t open? Tap here' : 'WhatsApp didn’t open? Tap here';
-          done.querySelector('[data-name]').textContent = d.name.split(' ')[0];
-          done.hidden = false; form.hidden = true;
-        }
-        state = 'done';
-        go();
-      },
-    });
+    const mailto = `mailto:${CONTACT_CONFIG.EMAIL}?subject=${encodeURIComponent(`Website enquiry from ${d.name} (Ref ${ref})`)}&body=${encodeURIComponent(text)}`;
+    const wa = waLink(text);
+
+    // Show the "saved" panel with a manual fallback link…
+    const done = form.parentElement.querySelector('.form-done');
+    if (done) {
+      const fb = done.querySelector('[data-fallback]');
+      fb.href = d.method === 'email' ? mailto : wa;
+      if (d.method !== 'email') { fb.target = '_blank'; fb.rel = 'noopener'; }
+      fb.textContent = d.method === 'email' ? 'Email didn’t open? Tap here' : 'WhatsApp didn’t open? Tap here';
+      done.querySelector('[data-name]').textContent = d.name.split(' ')[0];
+      done.hidden = false; form.hidden = true;
+    }
+    state = 'done';
+    log('contact.open', { method: d.method, id });
+    // …and open WhatsApp / email IMMEDIATELY (no timer). This page stays open, so the
+    // save to Google Sheets finishes in the background (outbox + retry still protect it).
+    if (d.method === 'email') {
+      window.location.href = mailto;
+    } else {
+      const w = window.open(wa, '_blank');
+      if (w) { try { w.opener = null; } catch (_) {} } else { goToWhatsApp(text); } // popup blocked → same tab
+    }
   });
 }

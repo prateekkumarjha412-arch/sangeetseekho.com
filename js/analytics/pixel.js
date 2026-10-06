@@ -64,8 +64,10 @@ function remember(eventId, persist) {
 export function track(name, params = {}, eventId = '', { persist = false } = {}) {
   const key = eventId || `${name}_${location.pathname}`;
   if (alreadyFired(key, persist)) { warn('pixel.duplicate_blocked', { name, eventId: key }); return false; }
-  remember(key, persist);
+  // Only remember events that were really handed to Meta — so an event isn't "used up"
+  // while tracking is switched off (no Pixel ID yet).
   if (!pixelEnabled || typeof window.fbq !== 'function') { log('pixel.skipped', { name, eventId: key, params }); return false; }
+  remember(key, persist);
   window.fbq('track', name, params, eventId ? { eventID: eventId } : undefined);
   log(`pixel.${name}`, { eventId: key, params });
   return true;

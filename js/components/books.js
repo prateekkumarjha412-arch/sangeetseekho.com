@@ -37,12 +37,12 @@ export function initBooks(root = document) {
 
 /* ---------------- Free preview gallery + lightbox ---------------- */
 let lightbox;
-function openLightbox(key, index) {
-  const b = EBOOKS[key];
+/** Generic zoom viewer. items: [{ img (path without extension), caption }] */
+export function openGallery(items, index = 0) {
   if (!lightbox) {
     lightbox = document.createElement('dialog');
     lightbox.className = 'lightbox';
-    lightbox.setAttribute('aria-label', 'Preview page');
+    lightbox.setAttribute('aria-label', 'Page viewer');
     lightbox.innerHTML = `
       <button type="button" class="icon-btn lb-close" data-close aria-label="Close">${icons.close}</button>
       <button type="button" class="lb-nav lb-prev" aria-label="Previous page">‹</button>
@@ -55,16 +55,24 @@ function openLightbox(key, index) {
     lightbox.querySelector('.lb-next').addEventListener('click', () => step(1));
   }
   function show() {
-    const p = b.previews[lightbox._i];
+    const p = lightbox._items[lightbox._i];
     const img = lightbox.querySelector('img');
-    img.src = `${p.img}.webp`; img.alt = `Preview: page ${p.page} — ${p.label}`;
     img.onerror = () => { img.onerror = null; img.src = `${p.img}.jpg`; };
-    lightbox.querySelector('figcaption').textContent = `Page ${p.page} of ${b.totalPages} · ${p.label}`;
+    img.src = `${p.img}.webp`; img.alt = p.caption;
+    lightbox.querySelector('figcaption').textContent = p.caption;
+    const multi = lightbox._items.length > 1;
+    lightbox.querySelectorAll('.lb-nav').forEach((b) => { b.hidden = !multi; });
   }
-  function step(d) { lightbox._i = (lightbox._i + d + b.previews.length) % b.previews.length; show(); }
+  function step(d) { const n = lightbox._items.length; lightbox._i = (lightbox._i + d + n) % n; show(); }
+  lightbox._items = items;
   lightbox._i = index;
   show();
   openDialog(lightbox);
+}
+
+function openLightbox(key, index) {
+  const b = EBOOKS[key];
+  openGallery(b.previews.map((p) => ({ img: p.img, caption: `Page ${p.page} of ${b.totalPages} · ${p.label}` })), index);
 }
 
 export function renderPreview(el) {

@@ -20,8 +20,9 @@
   <meta name="twitter:title" content="Online 1-on-1 Guitar Classes with Abhishek Nayak">
   <meta name="twitter:image" content="https://sangeetseekho.com/assets/img/og/og-online-classes.jpg">
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/brand/icon-192.png">
-  <link rel="apple-touch-icon" href="/assets/img/brand/icon-180.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-light-48.png" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/brand/favicon-dark-48.png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="/assets/img/brand/favicon-dark-180.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" type="image/webp" href="/assets/img/hero/abhishek-acoustic-600.webp" imagesrcset="/assets/img/hero/abhishek-acoustic-600.webp 600w, /assets/img/hero/abhishek-acoustic.webp 939w" imagesizes="(max-width: 900px) 100vw, 50vw">
@@ -50,9 +51,31 @@
           <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Live · 1-on-1 · Online</p>
           <h1 id="hero-title">Guitar classes where your teacher <span class="hl">watches every finger.</span></h1>
           <p class="lead">Learn fingerstyle, chords and film songs live with <strong>Abhishek Nayak</strong> — just you and your teacher.</p>
-          <div class="hero-ctas">
-            <a class="btn btn--primary btn--lg" href="#enroll">Book your first class <span class="btn-arrow">→</span></a>
-            <a class="btn btn--ghost btn--lg" href="#live-class">Watch a real class</a>
+          <!-- First-screen choice: classes (scroll down) or eBooks (pick one) -->
+          <div class="chooser" data-chooser>
+            <p class="chooser-q">What would you like to start with?</p>
+            <div class="chooser-main">
+              <button type="button" class="choice" data-choose="classes">
+                <span class="choice-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+                <span class="choice-txt"><b>Online 1-on-1 Classes</b><small>Live with Abhishek</small></span>
+                <span class="choice-arrow" aria-hidden="true">↓</span>
+              </button>
+              <button type="button" class="choice" data-choose="ebooks" aria-expanded="false" aria-controls="chooser-ebooks">
+                <span class="choice-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span>
+                <span class="choice-txt"><b>eBooks</b><small>Learn at your own pace</small></span>
+                <span class="choice-arrow" aria-hidden="true">›</span>
+              </button>
+            </div>
+            <div class="chooser-sub" id="chooser-ebooks" hidden>
+              <a class="sub-choice" href="/fingerstyle-guitar-ebook/">
+                <img src="/assets/img/ebooks/fingerstyle-flat-360.jpg" alt="" width="40" height="57" loading="lazy">
+                <span><b>Fingerstyle eBook</b><small>Melody + bass, with Sargam</small></span><span aria-hidden="true">→</span>
+              </a>
+              <a class="sub-choice" href="/chord-modulation-theory/">
+                <img src="/assets/img/ebooks/chord-modulation-flat-360.jpg" alt="" width="40" height="57" loading="lazy">
+                <span><b>Chord Modulation eBook</b><small>Change keys like film songs</small></span><span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
           <ul class="hero-proof">
             <li><span class="stars" aria-hidden="true">★★★★★</span> Loved by students</li>
@@ -63,7 +86,7 @@
     </section>
 
     <!-- ============ 2. WHY 1-ON-1 ============ -->
-    <section class="section section--tight" aria-labelledby="why-title">
+    <section class="section section--tight" id="classes" aria-labelledby="why-title">
       <div class="container">
         <h2 id="why-title" class="h3 center">Why learn 1-on-1?</h2>
         <div class="why-grid">
@@ -103,17 +126,18 @@
       </div>
     </section>
 
-    <!-- ============ 5. CURRICULUM ============ -->
+    <!-- ============ 5. CURRICULUM (content: js/content/curriculum.js · PDF: assets/docs/) ============ -->
     <section class="section section--sand" id="curriculum" aria-labelledby="curr-title">
       <div class="container">
         <div class="split-head">
           <div>
             <p class="eyebrow">Curriculum</p>
-            <h2 id="curr-title">First chord → full fingerstyle songs</h2>
+            <h2 id="curr-title">3-month Bollywood fingerstyle curriculum</h2>
+            <p class="lead">From your first finger pattern to performing your own arrangement.</p>
           </div>
-          <a class="btn btn--dark" data-curriculum-pdf href="#"><span class="btn-label">Download full curriculum</span></a>
+          <a class="btn btn--dark" data-curriculum-pdf href="/assets/docs/sangeetseekho-curriculum.pdf" download><span class="btn-label">Download full PDF</span> <span aria-hidden="true">↓</span></a>
         </div>
-        <div class="level-grid" data-curriculum></div>
+        <div data-curriculum></div>
       </div>
     </section>
 

@@ -5,8 +5,9 @@
    │     a) lead saved to Google Sheet (outbox, retried, never blocks)
    │     b) Meta InitiateCheckout (once per checkout ID)
    │     c) server creates the Razorpay order + Razorpay script preloads
-   │   7-second countdown runs meanwhile → Razorpay opens immediately after.
-   │   If the server is slow (>4 s extra) Razorpay still opens (order-less mode);
+   │   Razorpay opens as soon as the order + script are ready (usually 1–3 s). A loading
+   │   indicator appears ONLY if that takes longer than ~0.4 s. If the server is slow
+   │   (> ORDER_GRACE_MS) Razorpay still opens (order-less mode);
    │   the server verifies the payment by amount + product afterwards.
    ├ success  ─► "Confirming payment…" ─► server verifies signature + amount with
    │             Razorpay API ─► /thank-you/?payment_id=… (shows access only if verified)
@@ -24,7 +25,6 @@ import { uid, inr, sleep, getCookie, getLeadSource, describeSource, escapeHtml a
 import { local, session } from '../core/storage.js';
 import { log, warn, error } from '../core/logger.js';
 import { track, productParams } from '../analytics/pixel.js';
-import { runFinalCountdown } from '../components/cta-countdown.js';
 import { openDialog, closeDialog, wireDialog, icons } from '../components/ui.js';
 import { waLink, paymentProblemMessage } from './whatsapp.js';
 
@@ -112,8 +112,8 @@ function buildDialog() {
 
       <div class="ck-panel ck-center" data-panel="opening" hidden>
         <span class="spinner spinner--lg" aria-hidden="true"></span>
-        <h3 class="h4">Opening secure checkout…</h3>
-        <p class="muted">This usually takes a second.</p>
+        <h3 class="h4">Opening secure checkout… <span class="ck-elapsed" aria-hidden="true"></span></h3>
+        <p class="muted">Connecting to Razorpay. Please don’t close this page.</p>
       </div>
 
       <div class="ck-panel ck-center" data-panel="verifying" hidden>
@@ -200,11 +200,13 @@ export function openCheckout(productKey) {
   const prev = session.get(ATTEMPT_KEY);
   if (prev) { ['name', 'email', 'phone'].forEach((f) => { const i = form.elements[f]; if (i && !i.value && prev[f + 'Raw']) i.value = prev[f + 'Raw']; }); }
   const st = form.querySelector('.form-status'); st.hidden = true;
+  resetPayButton();
   updatePayLabel();
   showPanel('form');
   setState('form');
   openDialog(dlg);
-  loadRazorpay(); // warm up
+  loadRazorpay(); // warm up the Razorpay script
+  warmServer();   // wake up Google Apps Script so the order is created faster
   setTimeout(() => { const n = form.elements.name; if (n && !n.value && window.matchMedia('(min-width: 720px)').matches) n.focus(); }, 60);
 }
 
@@ -220,6 +222,9 @@ function onPay(ev) {
   saveAttempt(current);
   setState('starting');
 
+  // Safety: never take a LIVE payment if the server that verifies it and delivers the eBook isn't connected.
+  if (!backendReady()) return fail('error', 'Online payment is being set up. Please message us on WhatsApp to buy — we’ll help you right away.');
+
   const src = getLeadSource();
   // (a) Lead → Google Sheet immediately. Independent of payment. Never awaited by checkout.
   sendReliable('lead.save', {
@@ -228,20 +233,28 @@ function onPay(ev) {
     source: describeSource(src), utm: src, page: location.pathname,
   }, `lead_${current.checkoutId}`);
 
-  // (b) Meta InitiateCheckout — once per checkout ID
-  track('InitiateCheckout', { ...productParams(product), num_items: 1 }, `ic_${current.checkoutId}`);
-
-  // (c) Order + script in parallel with the countdown
+  // (b) Order + script in parallel, then open Razorpay right away (no fixed wait).
   loadRazorpay();
   orderPromise = createOrder(current, product, customer, src);
+  const btn = form.querySelector('.ck-pay');
+  btn.disabled = true;
+  btn.querySelector('.btn-label').innerHTML = '<span class="spinner" aria-hidden="true"></span> Opening…';
+  form.querySelector('.form-status').hidden = true;
+  openRazorpay();
+}
 
-  const status = form.querySelector('.form-status');
-  status.hidden = true;
-  runFinalCountdown(form.querySelector('.ck-pay'), {
-    text: (n) => `Opening secure checkout in ${n}s`,
-    onCancel: () => { setState('form'); },
-    onDone: () => openRazorpay(),
-  });
+function resetPayButton() {
+  if (!form) return;
+  const btn = form.querySelector('.ck-pay');
+  btn.disabled = false;
+  updatePayLabel();
+}
+
+let warmed = false;
+function warmServer() {
+  if (warmed || !backendReady()) return;
+  warmed = true;
+  call('health', {}, { retries: 0, timeoutMs: 15000 }).catch(() => {});
 }
 
 function createOrder(att, product, customer, src) {
@@ -256,22 +269,40 @@ function createOrder(att, product, customer, src) {
     att.orderId = r.orderId; att.amount = r.amount; att.keyId = r.keyId; saveAttempt(att);
     log('checkout.order_created', { orderId: r.orderId, amount: r.amount });
     return r;
-  }).catch((err) => { warn('checkout.order_failed', { kind: err.kind, msg: err.message }); return null; });
+  }).catch((err) => {
+    warn('checkout.order_failed', { kind: err.kind, msg: err.message });
+    // Server answered "keys not configured" → don't take a payment we can't verify.
+    if (err.detail && err.detail.code === 'NOT_CONFIGURED') return { notConfigured: true };
+    return null;
+  });
 }
 
 async function openRazorpay() {
   if (!['starting', 'cancelled', 'failed', 'error'].includes(state)) return;
   setState('opening');
-  showPanel('opening');
   const product = PRODUCT_CONFIG[current.productKey];
+  if (!backendReady()) return fail('error', 'Online payment is being set up. Please message us on WhatsApp to buy — we’ll help you right away.');
 
-  const [scriptOk, order] = await Promise.all([
-    loadRazorpay(8000),
+  // Loading indicator ONLY if opening takes noticeable time (never a fixed wait).
+  const t0 = Date.now();
+  const elapsedEl = dlg.querySelector('.ck-elapsed');
+  let ticker = null;
+  const showLoader = setTimeout(() => {
+    showPanel('opening');
+    const paint = () => { elapsedEl.textContent = `${Math.max(1, Math.round((Date.now() - t0) / 1000))}s`; };
+    paint(); ticker = setInterval(paint, 500);
+  }, 400);
+  const stopLoader = () => { clearTimeout(showLoader); clearInterval(ticker); elapsedEl.textContent = ''; };
+
+  const [scriptOk, rawOrder] = await Promise.all([
+    loadRazorpay(10000),
     Promise.race([orderPromise || Promise.resolve(null), sleep(PAYMENT_CONFIG.ORDER_GRACE_MS).then(() => null)]),
   ]);
+  stopLoader();
+  log('checkout.ready', { ms: Date.now() - t0, order: !!(rawOrder && rawOrder.orderId) });
   if (!scriptOk) return fail('error', 'Razorpay could not load. Please check your internet connection and try again.');
-  // Safety: never take a LIVE payment if the server that verifies it and delivers the eBook isn't connected yet.
-  if (!backendReady()) return fail('error', 'Online payment is being set up. Please message us on WhatsApp to buy — we’ll help you right away.');
+  if (rawOrder && rawOrder.notConfigured) return fail('error', 'Online payment is being set up. Please message us on WhatsApp to buy — we’ll help you right away.');
+  const order = rawOrder && rawOrder.orderId ? rawOrder : null;
 
   const keyId = (order && order.keyId) || PAYMENT_CONFIG.RAZORPAY_KEY_ID;
   if (isPlaceholder(keyId)) return fail('error', 'Payments are not switched on yet. Please message us on WhatsApp to buy.');
@@ -284,7 +315,7 @@ async function openRazorpay() {
     currency: PAYMENT_CONFIG.CURRENCY,
     name: PAYMENT_CONFIG.CHECKOUT_TITLE,
     description: product.name,
-    image: `${location.origin}/assets/img/brand/icon-192.png`,
+    image: `${location.origin}/assets/img/brand/favicon-light-192.png`,
     prefill: { name: current.name, email: current.email, contact: current.phone },
     notes: { site: 'sangeetseekho', checkout_id: current.checkoutId, product_key: product.key, product_id: product.id, customer_name: current.name.slice(0, 60) },
     theme: { color: PAYMENT_CONFIG.THEME_COLOR },
@@ -322,6 +353,8 @@ async function openRazorpay() {
     closeDialog(dlg);           // Razorpay must sit on top; our dialog lives in the top layer
     setState('in_razorpay');
     rzp.open();
+    // Meta InitiateCheckout — only when the payment window really opened, once per checkout ID
+    track('InitiateCheckout', { ...productParams(product), num_items: 1 }, `ic_${current.checkoutId}`);
     log('checkout.razorpay_opened', { orderId: opts.order_id || null, amount: opts.amount });
   } catch (err) {
     error('checkout.razorpay_open_error', { msg: err.message });

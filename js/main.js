@@ -5,7 +5,7 @@ import { renderHeader, renderFooter, renderFloating } from './components/layout.
 import { initOutbox } from './core/api.js';
 import { initVideos } from './components/video.js';
 import { PRODUCT_CONFIG } from './config.js';
-import { inr } from './core/utils.js';
+import { inr, getLeadSource } from './core/utils.js';
 import { log } from './core/logger.js';
 
 /** Fill every price on the page from PRODUCT_CONFIG (no prices hard-coded in HTML). */
@@ -28,6 +28,7 @@ export function boot() {
   if (booted) return;
   booted = true;
   document.documentElement.classList.add('js');
+  getLeadSource();   // remember where this visitor came from (ads/UTM) before they browse further
   initPixel();
   renderHeader();
   renderFooter();

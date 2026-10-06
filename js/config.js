@@ -45,7 +45,7 @@ export const BACKEND_CONFIG = {
   // Paste the WEB APP URL you get after "Deploy → New deployment" in Apps Script.
   // It looks like: https://script.google.com/macros/s/AKfy..../exec
   // ⚠️ NOT the editor link (script.google.com/home/projects/.../edit) — that one won't work.
-  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx_F9nJUCthOOtz6N1Qj83umvtfDWCIqB94Ki4lfHOCD5-Q49W6KoTHk7IwOClcF5VP/exec',
+  GOOGLE_SCRIPT_URL: 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE',
   REQUEST_TIMEOUT_MS: 15000,   // give up on one request after 15 seconds
 };
 
@@ -60,8 +60,9 @@ export const PAYMENT_CONFIG = {
   // If the server is slow to create an order, open Razorpay anyway (payment is
   // still verified on the server afterwards). Keep this true.
   ALLOW_ORDERLESS_FALLBACK: true,
-  // Extra seconds we wait for the server's order after the 7-second countdown.
-  ORDER_GRACE_MS: 4000,
+  // Longest we wait for the server's order after the customer clicks Pay before opening
+  // Razorpay anyway (usually it's ready in 1–3 s and Razorpay opens immediately).
+  ORDER_GRACE_MS: 6000,
 };
 
 /* ---------- 5. TRACKING (Meta Pixel) ---------- */
@@ -114,12 +115,10 @@ export const PRODUCT_CONFIG = {
 
 /* ---------- 7. TIMERS ---------- */
 export const TIMER_CONFIG = {
-  // 1-hour offer timer on eBook pages.
+  // Offer timer on eBook pages: counts down from 1 hour. When it reaches 00:00:00 it
+  // automatically starts a new 1-hour cycle. Reloading the page does NOT reset it.
   OFFER_MINUTES: 60,
-  // After the timer ends, a visitor sees "offer price still active" (no fake
-  // reset). A fresh 1-hour window starts only after this many hours.
-  OFFER_COOLDOWN_HOURS: 24,
-  // Countdown on FINAL buttons only (Submit / Pay / Get the eBook).
+  // Countdown on the online-class enrollment button only (contact + eBook checkout open instantly).
   FINAL_CTA_SECONDS: 7,
 };
 
@@ -127,5 +126,5 @@ export const TIMER_CONFIG = {
 export const ASSET_CONFIG = {
   // Upload your PDF to /assets/docs/ and write the path, e.g. '/assets/docs/curriculum.pdf'
   // Leave '' and the button will offer the curriculum on WhatsApp instead.
-  CURRICULUM_PDF: '',
+  CURRICULUM_PDF: '/assets/docs/sangeetseekho-curriculum.pdf',
 };
