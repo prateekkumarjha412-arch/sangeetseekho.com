@@ -15,22 +15,33 @@ const stars = (n = 5) => `<span class="stars" aria-label="${n} out of 5 stars">$
 export function renderCurriculum(el) {
   if (!el) return;
   const c = CURRICULUM;
+  const pdf = ASSET_CONFIG.CURRICULUM_PDF;
   el.innerHTML = `
-    <div class="month-grid">${c.months.map((m) => `
-      <article class="month-card" data-reveal>
+    ${c.facts && c.facts.length ? `<ul class="curr-facts" data-reveal>${c.facts.map((f) => `
+      <li><b>${e(f.value)}</b><span>${e(f.label)}</span></li>`).join('')}</ul>` : ''}
+    <div class="month-grid">
+      <span class="curr-path" aria-hidden="true"><i></i></span>${c.months.map((m, i) => `
+      <article class="month-card" data-reveal style="--d:${i * 140}ms">
+        <span class="month-step" aria-hidden="true">${i + 1}</span>
         <span class="curr-badge">${e(m.label)}</span>
         <h3>${e(m.title)}</h3>
         <ul>${m.highlights.map((h) => `<li>${e(h)}</li>`).join('')}</ul>
+        ${m.outcome ? `<p class="month-outcome"><span>You’ll be able to</span>${e(m.outcome)}</p>` : ''}
       </article>`).join('')}</div>
-    <div class="curr-pdf">
-      <div class="curr-pdf-head">
-        <h3 class="h5">Full curriculum (PDF)</h3>
-        <span class="muted small">${c.pages.length} pages · tap a page to zoom${ASSET_CONFIG.CURRICULUM_PDF ? ` · <a href="${e(ASSET_CONFIG.CURRICULUM_PDF)}" target="_blank" rel="noopener">Open PDF</a>` : ''}</span>
-      </div>
-      <div class="curr-pages">${c.pages.map((p, i) => `
-        <button type="button" class="curr-page" data-page="${i}" aria-label="Open ${e(p.caption)}">
+    <div class="curr-pdf" data-reveal>
+      <div class="curr-stack">${c.pages.map((p, i) => `
+        <button type="button" class="curr-page" data-page="${i}" style="--i:${i}" aria-label="Open ${e(p.caption)}">
           ${picture(p.img, p.caption, { width: p.w, height: p.h })}
         </button>`).join('')}</div>
+      <div class="curr-pdf-body">
+        <span class="curr-pdf-tag">PDF · ${c.pages.length} pages</span>
+        <h3 class="h5">Full curriculum, week by week</h3>
+        <p class="muted small">Every topic, technique and song type — tap a month to preview the page.</p>
+        <div class="curr-pdf-links">${c.pages.map((p, i) => `
+          <button type="button" class="curr-chip" data-page="${i}">${e(c.months[i] ? c.months[i].label : `Page ${i + 1}`)}</button>`).join('')}
+          ${pdf ? `<a class="curr-open" href="${e(pdf)}" target="_blank" rel="noopener">Open PDF ↗</a>` : ''}
+        </div>
+      </div>
     </div>`;
   el.addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-page]');
