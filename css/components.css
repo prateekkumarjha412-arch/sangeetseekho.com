@@ -394,10 +394,9 @@ dialog.lightbox::backdrop { background: rgba(15, 10, 7, .88); }
 .logo .logo-img { height: 46px; width: auto; display: block; }
 .logo--light .logo-img { height: 56px; }
 @media (max-width: 380px) { .logo .logo-img { height: 36px; } }
-/* Mobile: compact round payment-help button so floaters cover less content */
+/* Mobile: payment-help button shows icon + full text (compact pill) */
 @media (max-width: 560px) {
-  .floater--pay { width: 46px; height: 46px; padding: 0; border-radius: 50%; position: relative; margin-right: 6px; }
-  .floater--pay .floater-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .floater--pay::after { content: "₹"; position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: var(--gold); color: var(--espresso); font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+  .floater--pay { height: 40px; padding: 0 14px 0 12px; gap: 7px; font-size: .78rem; }
+  .floater--pay svg { width: 18px; height: 18px; }
   .floater--wa { width: 54px; height: 54px; }
 }
