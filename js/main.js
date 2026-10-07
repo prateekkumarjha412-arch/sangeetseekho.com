@@ -21,6 +21,12 @@ function initReveal() {
   if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { els.forEach((e) => e.classList.add('is-in')); return; }
   const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
   els.forEach((e) => io.observe(e));
+  // Sections rendered later by JavaScript (e.g. curriculum cards) must be revealed too —
+  // otherwise they stay invisible and the area looks like an empty block.
+  new MutationObserver((muts) => muts.forEach((m) => m.addedNodes.forEach((n) => {
+    if (n.nodeType !== 1) return;
+    [n, ...n.querySelectorAll('[data-reveal]')].forEach((e) => { if (e.matches && e.matches('[data-reveal]') && !e.classList.contains('is-in')) io.observe(e); });
+  }))).observe(document.body, { childList: true, subtree: true });
 }
 
 let booted = false;
